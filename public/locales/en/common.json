@@ -1,0 +1,113 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About Us",
+    "contact": "Contact",
+    "works": "Our Works",
+    "blog": "Blog"
+  },
+  "language": "Language",
+  "hero": {
+    "title": "Professional Auto Service",
+    "subtitle": "Quality repair and maintenance for your vehicle",
+    "cta": "Order Service"
+  },
+  "services": {
+    "title": "Our Services",
+    "diagnostics": "Diagnostics",
+    "repair": "Repair",
+    "maintenance": "Maintenance",
+    "tire": "Tire Service",
+    "diagnostics_desc": "Comprehensive diagnostics using modern equipment",
+    "repair_desc": "High-quality repair with warranty on work",
+    "maintenance_desc": "Preventive maintenance, cleaning and adjustments",
+    "tire_desc": "Full tire and fuel system service"
+  },
+  "about": {
+    "title": "About Us",
+    "description": "We have been working in the auto service market for over 10 years. Our team of qualified craftsmen provides quality repair and maintenance of vehicles."
+  },
+  "contact": {
+    "title": "Contact",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "hours": "Working Hours",
+    "map": "Find us on map"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "address": "Kyiv, Avtoservisna St, 123",
+    "phone": "+380 (44) 123-45-67",
+    "email": "info@autoservice.ua"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Useful articles about repair and maintenance of fuel injection pumps",
+    "categories": {
+      "all": "All",
+      "diagnostics": "Diagnostics",
+      "repair": "Repair",
+      "equipment": "Equipment",
+      "maintenance": "Maintenance",
+      "analysis": "Analysis",
+      "economy": "Economy"
+    },
+    "tags": {
+      "tnvd": "TNVD",
+      "diagnostics": "diagnostics",
+      "repair": "repair",
+      "mistakes": "mistakes",
+      "tips": "tips",
+      "equipment": "equipment",
+      "tools": "tools",
+      "maintenance": "maintenance",
+      "comparison": "comparison",
+      "manufacturers": "manufacturers",
+      "economy": "economy",
+      "fuel": "fuel"
+    },
+    "buttons": {
+      "readArticle": "Read article"
+    },
+    "articles": {
+      "1": {
+        "title": "How to properly diagnose a fuel injection pump: step-by-step",
+        "excerpt": "A detailed guide to diagnosing a high-pressure fuel pump. Learn the main symptoms of malfunctions and methods for detecting them.",
+        "category": "Diagnostics",
+        "readTime": "8 min"
+      },
+      "2": {
+        "title": "Top 5 mistakes in pump repair to avoid",
+        "excerpt": "We explain the most common mistakes made when repairing a fuel pump and how to avoid them.",
+        "category": "Repair",
+        "readTime": "6 min"
+      },
+      "3": {
+        "title": "Modern equipment for pump repair: what to use",
+        "excerpt": "An overview of the latest equipment and tools needed for quality pump repair.",
+        "category": "Equipment",
+        "readTime": "10 min"
+      },
+      "4": {
+        "title": "Preventive maintenance of fuel pumps: when and how",
+        "excerpt": "Learn about the importance of prevention and how to properly maintain a fuel pump to extend its life.",
+        "category": "Maintenance",
+        "readTime": "7 min"
+      },
+      "5": {
+        "title": "Differences between pumps from different manufacturers: a comparison",
+        "excerpt": "A detailed comparative analysis of pumps from different manufacturers, their features and advantages.",
+        "category": "Analysis",
+        "readTime": "12 min"
+      },
+      "6": {
+        "title": "Fuel economy: how the pump affects consumption",
+        "excerpt": "We analyze how the condition of the fuel pump affects fuel economy and what to do to optimize it.",
+        "category": "Economy",
+        "readTime": "9 min"
+      }
+    }
+  }
+}

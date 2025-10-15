@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About Us",
+    "contact": "Contact"
+  },
+  "language": "Language",
+  "hero": {
+    "title": "Professional Auto Service",
+    "subtitle": "Quality repair and maintenance for your vehicle",
+    "cta": "Order Service"
+  },
+  "services": {
+    "title": "Our Services",
+    "diagnostics": "Diagnostics",
+    "repair": "Repair",
+    "maintenance": "Maintenance",
+    "tire": "Tire Service"
+  },
+  "about": {
+    "title": "About Us",
+    "description": "We have been working in the auto service market for over 10 years. Our team of qualified craftsmen provides quality repair and maintenance of vehicles."
+  },
+  "contact": {
+    "title": "Contact",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "hours": "Working Hours",
+    "map": "Find us on map"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "address": "Kyiv, Avtoservisna St, 123",
+    "phone": "+380 (44) 123-45-67",
+    "email": "info@autoservice.ua"
+  }
+}
