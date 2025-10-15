@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Autoservice Project
 
-## Getting Started
+Професійний веб-сайт автосервісу з підтримкою української та англійської мов.
 
-First, run the development server:
+## 🚀 Технології
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 15** - React фреймворк з App Router
+- **Material-UI (MUI)** - UI компоненти
+- **next-intl** - Інтернаціоналізація (EN/UK)
+- **TypeScript** - Типізація
+- **Emotion** - CSS-in-JS
+
+## 📁 Структура проекту
+
+```
+src/
+├── app/
+│   ├── [locale]/          # Локалізовані сторінки
+│   │   ├── about/         # Про нас
+│   │   ├── blog/          # Блог
+│   │   ├── contact/       # Контакти
+│   │   ├── services/      # Послуги
+│   │   └── works/         # Наші роботи
+│   └── layout.tsx         # Кореневий layout
+├── components/            # React компоненти
+├── i18n.ts               # Конфігурація локалізації
+└── middleware.ts         # Next.js middleware
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠 Встановлення та запуск
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Клонування репозиторію:**
+```bash
+git clone https://github.com/Dribnuy/AutoserviceProject.git
+cd AutoserviceProject
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Встановлення залежностей:**
+```bash
+npm install
+```
 
-## Learn More
+3. **Запуск в режимі розробки:**
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+4. **Відкрийте браузер:**
+- Українська: [http://localhost:3000/uk](http://localhost:3000/uk)
+- English: [http://localhost:3000/en](http://localhost:3000/en)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🌐 Локалізація
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Проект підтримує дві мови:
+- 🇺🇦 **Українська** (за замовчуванням)
+- 🇬🇧 **English**
 
-## Deploy on Vercel
+Перемикання мов відбувається автоматично через URL:
+- `/uk/` - українська версія
+- `/en/` - англійська версія
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📝 Доступні сторінки
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Головна** (`/`) - Головна сторінка з героєм та послугами
+- **Про нас** (`/about`) - Інформація про компанію
+- **Послуги** (`/services`) - Список послуг автосервісу
+- **Наші роботи** (`/works`) - Портфоліо робіт
+- **Блог** (`/blog`) - Корисні статті
+- **Контакти** (`/contact`) - Контактна інформація
+
+## 🚀 Деплой
+
+Найпростіший спосіб деплою - використання [Vercel Platform](https://vercel.com/new):
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
+
+## 📄 Ліцензія
+
+Цей проект розроблений для автосервісу в с. Михайлівка.
