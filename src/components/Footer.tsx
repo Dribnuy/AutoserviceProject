@@ -65,7 +65,7 @@ const Footer = () => {
 
           <Box sx={{ flex: '1 1 200px', minWidth: 0 }}>
             <Typography variant="h6" gutterBottom sx={{ color: '#004975' }}>
-              Контактна інформація
+              {t('contactInfo')}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
               <LocationOn sx={{ mr: 1, color: '#004975' }} />
@@ -89,7 +89,7 @@ const Footer = () => {
 
           <Box sx={{ flex: '1 1 200px', minWidth: 0 }}>
             <Typography variant="h6" gutterBottom sx={{ color: '#004975' }}>
-              Ми на карті
+              {t('map')}
             </Typography>
             <Box
               sx={{

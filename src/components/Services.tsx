@@ -10,7 +10,6 @@ import {
 import TroubleshootIcon from '@mui/icons-material/Troubleshoot';
 import BuildIcon from '@mui/icons-material/Build';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
-import LocalGasStationIcon from '@mui/icons-material/LocalGasStation';
 import { useTranslations } from 'next-intl';
 
 const Services = () => {
@@ -38,13 +37,6 @@ const Services = () => {
         <SettingsSuggestIcon sx={{ fontSize: 56, color: '#004975' }} />
       ),
     },
-    {
-      title: t('tire'),
-      description: t('tire_desc'),
-      icon: (
-        <LocalGasStationIcon sx={{ fontSize: 56, color: '#004975' }} />
-      ),
-    },
   ];
 
   return (
@@ -64,7 +56,7 @@ const Services = () => {
           {t('title')}
         </Typography>
         
-        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' }, gap: 4 }}>
+        <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 4 }}>
           {services.map((service, index) => (
             <Card
               key={index}

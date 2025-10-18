@@ -3,7 +3,9 @@
     "home": "Home",
     "services": "Services",
     "about": "About Us",
-    "contact": "Contact"
+    "contact": "Contact",
+    "works": "Our Works",
+    "blog": "Blog"
   },
   "language": "Language",
   "hero": {
@@ -16,24 +18,210 @@
     "diagnostics": "Diagnostics",
     "repair": "Repair",
     "maintenance": "Maintenance",
-    "tire": "Tire Service"
+    "tire": "Tire Service",
+    "diagnostics_desc": "Comprehensive diagnostics using modern equipment",
+    "repair_desc": "High-quality repair with warranty on work",
+    "maintenance_desc": "Preventive maintenance, cleaning and adjustments",
+    "tire_desc": "Full tire and fuel system service",
+    "page": {
+      "title": "Our Services",
+      "subtitle": "Professional repair and diagnostics of fuel systems",
+      "injectorRepair": "Injector Repair",
+      "injectorRepairDesc": "Professional repair of injectors from leading manufacturers",
+      "fuelPumpDiagnostics": "Fuel Pump Diagnostics",
+      "fuelPumpDiagnosticsDesc": "Complete diagnostics of high-pressure fuel pumps",
+      "learnMore": "Learn More",
+      "brands": {
+        "bosch": "Bosch",
+        "piezo": "Piezo Continental",
+        "delphi": "Delphi",
+        "denso": "Denso"
+      },
+      "injectorBrands": {
+        "bosch": {
+          "title": "Bosch Injectors",
+          "description": "Professional repair and adjustment of Bosch injectors. We use original parts and modern equipment."
+        },
+        "piezo": {
+          "title": "Piezo Continental Injectors",
+          "description": "Repair of Continental piezoelectric injectors. Specialized equipment for diagnostics and repair."
+        },
+        "delphi": {
+          "title": "Delphi Injectors",
+          "description": "Quality repair of Delphi injectors with warranty. Complete diagnostics and adjustment."
+        },
+        "denso": {
+          "title": "Denso Injectors",
+          "description": "Repair and maintenance of Denso injectors. Experience with Japanese systems."
+        }
+      },
+      "pumpBrands": {
+        "bosch": {
+          "title": "Bosch Pumps",
+          "description": "Bosch fuel pump diagnostics on specialized test benches. Detection of all malfunctions."
+        },
+        "delphi": {
+          "title": "Delphi Pumps",
+          "description": "Comprehensive diagnostics of Delphi fuel pumps. Accurate problem detection."
+        },
+        "denso": {
+          "title": "Denso Pumps",
+          "description": "Professional diagnostics of Denso fuel pumps. Modern equipment and experienced technicians."
+        }
+      }
+    }
   },
   "about": {
     "title": "About Us",
-    "description": "We have been working in the auto service market for over 10 years. Our team of qualified craftsmen provides quality repair and maintenance of vehicles."
+    "description": "We have been working in the auto service market for over 10 years. Our team of qualified craftsmen provides quality repair and maintenance of vehicles.",
+    "ourStory": "Our Story",
+    "storyText": "We have been working in the auto service market for over 10 years. Our team of qualified craftsmen provides quality repair and maintenance of vehicles of various brands and models.",
+    "ourAdvantages": "Our Advantages",
+    "advantages": {
+      "modernEquipment": "Modern equipment",
+      "experiencedMasters": "Experienced mechanics",
+      "warranty": "Work guarantee",
+      "fastService": "Fast service"
+    }
   },
-  "contact": {
-    "title": "Contact",
-    "address": "Address",
-    "phone": "Phone",
-    "email": "Email",
-    "hours": "Working Hours",
-    "map": "Find us on map"
+  "works": {
+    "title": "Our Works",
+    "subtitle": "Watch our works on TikTok and learn about the fuel pump repair process",
+    "goToTiktok": "Go to TikTok",
+    "views": "Views",
+    "likes": "Likes",
+    "comments": "Comments",
+    "watch": "Watch",
+    "subscribe": {
+      "title": "Subscribe to our TikTok!",
+      "subtitle": "Daily new videos about fuel pump repair and useful tips",
+      "button": "Subscribe on TikTok"
+    },
+    "videos": {
+      "1": {
+        "title": "Fuel Pump Diagnostics",
+        "description": "High-pressure fuel pump diagnostics process"
+      },
+      "2": {
+        "title": "Plunger Pairs Repair",
+        "description": "Replacing plunger pairs in fuel pump"
+      },
+      "3": {
+        "title": "Post-Repair Testing",
+        "description": "Checking fuel pump operation after repair"
+      },
+      "4": {
+        "title": "Fuel Pump Calibration",
+        "description": "Adjusting pressure in the fuel pump"
+      },
+      "5": {
+        "title": "Fuel System Maintenance",
+        "description": "Cleaning and servicing the fuel system"
+      },
+      "6": {
+        "title": "Fuel Pump Dismantling",
+        "description": "Proper fuel pump removal"
+      }
+    }
   },
   "footer": {
     "rights": "All rights reserved",
-    "address": "Kyiv, Avtoservisna St, 123",
-    "phone": "+380 (44) 123-45-67",
-    "email": "info@autoservice.ua"
+    "address": "Mykhailivka village, Pershotravneva St, 124",
+    "phone": "+380 (67) 123-45-67",
+    "email": "info@remonttnvd.com",
+    "contactInfo": "Contact Information",
+    "map": "Find us on map"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "formTitle": "Send us a message",
+    "infoTitle": "Contact Information",
+    "mapTitle": "Find us on map",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "send": "Send",
+    "addressLabel": "Address",
+    "addressValue": "Mykhailivka village, Pershotravneva St, 124",
+    "phoneLabel": "Phone",
+    "phoneValue": "+380 (67) 123-45-67",
+    "emailLabel": "Email",
+    "emailValue": "info@remonttnvd.com",
+    "hoursLabel": "Working Hours",
+    "hoursValue": "Mon-Fri: 8:00 AM - 6:00 PM<br />Sat: 9:00 AM - 4:00 PM<br />Sun: Closed"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Useful articles about repair and maintenance of fuel injection pumps",
+    "categories": {
+      "all": "All",
+      "diagnostics": "Diagnostics",
+      "repair": "Repair",
+      "equipment": "Equipment",
+      "maintenance": "Maintenance",
+      "analysis": "Analysis",
+      "economy": "Economy"
+    },
+    "tags": {
+      "tnvd": "TNVD",
+      "diagnostics": "diagnostics",
+      "repair": "repair",
+      "mistakes": "mistakes",
+      "tips": "tips",
+      "equipment": "equipment",
+      "tools": "tools",
+      "maintenance": "maintenance",
+      "comparison": "comparison",
+      "manufacturers": "manufacturers",
+      "economy": "economy",
+      "fuel": "fuel"
+    },
+    "buttons": {
+      "readArticle": "Read article"
+    },
+    "newsletter": {
+      "title": "Subscribe to our blog updates!",
+      "subtitle": "Get new articles about fuel pump repair delivered to your inbox",
+      "button": "Subscribe to newsletter"
+    },
+    "articles": {
+      "1": {
+        "title": "How to properly diagnose a fuel injection pump: step-by-step",
+        "excerpt": "A detailed guide to diagnosing a high-pressure fuel pump. Learn the main symptoms of malfunctions and methods for detecting them.",
+        "category": "Diagnostics",
+        "readTime": "8 min"
+      },
+      "2": {
+        "title": "Top 5 mistakes in pump repair to avoid",
+        "excerpt": "We explain the most common mistakes made when repairing a fuel pump and how to avoid them.",
+        "category": "Repair",
+        "readTime": "6 min"
+      },
+      "3": {
+        "title": "Modern equipment for pump repair: what to use",
+        "excerpt": "An overview of the latest equipment and tools needed for quality pump repair.",
+        "category": "Equipment",
+        "readTime": "10 min"
+      },
+      "4": {
+        "title": "Preventive maintenance of fuel pumps: when and how",
+        "excerpt": "Learn about the importance of prevention and how to properly maintain a fuel pump to extend its life.",
+        "category": "Maintenance",
+        "readTime": "7 min"
+      },
+      "5": {
+        "title": "Differences between pumps from different manufacturers: a comparison",
+        "excerpt": "A detailed comparative analysis of pumps from different manufacturers, their features and advantages.",
+        "category": "Analysis",
+        "readTime": "12 min"
+      },
+      "6": {
+        "title": "Fuel economy: how the pump affects consumption",
+        "excerpt": "We analyze how the condition of the fuel pump affects fuel economy and what to do to optimize it.",
+        "category": "Economy",
+        "readTime": "9 min"
+      }
+    }
   }
 }

@@ -1,3 +1,4 @@
+'use client';
 
 import {
   Container,
@@ -17,13 +18,16 @@ import {
   OpenInNew,
   VideoLibrary
 } from '@mui/icons-material';
+import { useTranslations } from 'next-intl';
 
 export default function WorksPage() {
+  const t = useTranslations('common.works');
+
   const tiktokVideos = [
     {
       id: 1,
-      title: 'Діагностика ТНВД',
-      description: 'Процес діагностики топливного насоса високого тиску',
+      title: t('videos.1.title'),
+      description: t('videos.1.description'),
       thumbnail: '/images/tiktok-1.jpg',
       views: '12.5K',
       likes: '1.2K',
@@ -33,8 +37,8 @@ export default function WorksPage() {
     },
     {
       id: 2,
-      title: 'Ремонт плунжерних пар',
-      description: 'Заміна плунжерних пар в ТНВД',
+      title: t('videos.2.title'),
+      description: t('videos.2.description'),
       thumbnail: '/images/tiktok-2.jpg',
       views: '8.7K',
       likes: '856',
@@ -44,8 +48,8 @@ export default function WorksPage() {
     },
     {
       id: 3,
-      title: 'Тестування після ремонту',
-      description: 'Перевірка роботи ТНВД після ремонту',
+      title: t('videos.3.title'),
+      description: t('videos.3.description'),
       thumbnail: '/images/tiktok-3.jpg',
       views: '15.3K',
       likes: '2.1K',
@@ -55,8 +59,8 @@ export default function WorksPage() {
     },
     {
       id: 4,
-      title: 'Калібрування ТНВД',
-      description: 'Налаштування тиску в топливному насосі',
+      title: t('videos.4.title'),
+      description: t('videos.4.description'),
       thumbnail: '/images/tiktok-4.jpg',
       views: '6.9K',
       likes: '743',
@@ -66,8 +70,8 @@ export default function WorksPage() {
     },
     {
       id: 5,
-      title: 'Обслуговування паливної системи',
-      description: 'Чистка та обслуговування паливної системи',
+      title: t('videos.5.title'),
+      description: t('videos.5.description'),
       thumbnail: '/images/tiktok-5.jpg',
       views: '9.8K',
       likes: '1.1K',
@@ -77,8 +81,8 @@ export default function WorksPage() {
     },
     {
       id: 6,
-      title: 'Демонтаж ТНВД',
-      description: 'Правильний демонтаж топливного насоса',
+      title: t('videos.6.title'),
+      description: t('videos.6.description'),
       thumbnail: '/images/tiktok-6.jpg',
       views: '11.2K',
       likes: '987',
@@ -92,13 +96,12 @@ export default function WorksPage() {
     <main>
       <Box sx={{ py: 8, backgroundColor: '#F8F9FA' }}>
         <Container maxWidth="lg">
-          
           <Box sx={{ textAlign: 'center', mb: 6 }}>
             <Typography variant="h1" gutterBottom sx={{ color: '#004975', fontWeight: 'bold' }}>
-              Наші роботи
+              {t('title')}
             </Typography>
             <Typography variant="h5" color="text.secondary" sx={{ mb: 4 }}>
-              Дивіться наші роботи в TikTok та дізнавайтеся про процес ремонту ТНВД
+              {t('subtitle')}
             </Typography>
             
             <Button
@@ -122,7 +125,7 @@ export default function WorksPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Перейти до TikTok
+              {t('goToTiktok')}
             </Button>
           </Box>
 
@@ -162,7 +165,6 @@ export default function WorksPage() {
                       }
                     }}
                   >
-                  
                     <IconButton
                       sx={{
                         backgroundColor: 'rgba(255, 255, 255, 0.9)',
@@ -204,22 +206,18 @@ export default function WorksPage() {
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                       {video.description}
-                    </Typography>
-
-                    
-                    <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                    </Typography>                    <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
                       <Typography variant="caption" color="text.secondary">
-                        Перегляди: {video.views}
+                        {t('views')}: {video.views}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
-                        Вподобайки: {video.likes}
+                        {t('likes')}: {video.likes}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
-                        Коментарі: {video.comments}
+                        {t('comments')}: {video.comments}
                       </Typography>
                     </Box>
 
-                    {/* Кнопки дій */}
                     <Box sx={{ display: 'flex', gap: 1 }}>
                       <Button
                         variant="outlined"
@@ -230,7 +228,7 @@ export default function WorksPage() {
                         rel="noopener noreferrer"
                         sx={{ flex: 1 }}
                       >
-                        Дивитися
+                        {t('watch')}
                       </Button>
                       <IconButton size="small" color="primary">
                         <Share />
@@ -244,10 +242,10 @@ export default function WorksPage() {
 
           <Box sx={{ textAlign: 'center', mt: 8, p: 4, backgroundColor: '#004975', borderRadius: 3 }}>
             <Typography variant="h4" sx={{ color: 'white', mb: 2, fontWeight: 'bold' }}>
-              Підписуйтесь на наш TikTok!
+              {t('subscribe.title')}
             </Typography>
             <Typography variant="h6" sx={{ color: '#E0F2FF', mb: 3 }}>
-              Щодня нові відео про ремонт ТНВД та корисні поради
+              {t('subscribe.subtitle')}
             </Typography>
             <Button
               variant="contained"
@@ -268,7 +266,7 @@ export default function WorksPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              Підписатися на TikTok
+              {t('subscribe.button')}
             </Button>
           </Box>
         </Container>

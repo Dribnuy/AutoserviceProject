@@ -1,6 +1,6 @@
 import Hero from '../../components/Hero';
 import Services from '../../components/Services';
-import { locales } from '@i18n.ts';
+import { locales } from '@/i18n';
 
 export default function HomePage() {
   return (

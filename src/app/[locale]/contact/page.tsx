@@ -1,8 +1,12 @@
+'use client';
 
 import { Container, Typography, Box, Grid, Card, CardContent, TextField, Button, Divider } from '@mui/material';
 import { LocationOn, Phone, Email, AccessTime } from '@mui/icons-material';
+import { useTranslations } from 'next-intl';
 
 export default function ContactPage() {
+  const t = useTranslations('common.contact');
+
   return (
     <main>
       <Box sx={{ py: 8, backgroundColor: '#F8F9FA' }}>
@@ -18,40 +22,38 @@ export default function ContactPage() {
               mb: 6,
             }}
           >
-            Контакти
+            {t('title')}
           </Typography>
-          
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
-            
             <Box sx={{ flex: '1 1 300px', minWidth: 0 }}>
               <Card>
                 <CardContent sx={{ p: 4 }}>
                   <Typography variant="h4" gutterBottom sx={{ color: '#004975', fontWeight: 'bold' }}>
-                    Напишіть нам
+                    {t('formTitle')}
                   </Typography>
                   <Box component="form" sx={{ mt: 3 }}>
                     <TextField
                       fullWidth
-                      label="Ім'я"
+                      label={t('name')}
                       margin="normal"
                       variant="outlined"
                     />
                     <TextField
                       fullWidth
-                      label="Email"
+                      label={t('email')}
                       margin="normal"
                       variant="outlined"
                       type="email"
                     />
                     <TextField
                       fullWidth
-                      label="Телефон"
+                      label={t('phone')}
                       margin="normal"
                       variant="outlined"
                     />
                     <TextField
                       fullWidth
-                      label="Повідомлення"
+                      label={t('message')}
                       margin="normal"
                       variant="outlined"
                       multiline
@@ -66,18 +68,17 @@ export default function ContactPage() {
                         '&:hover': { backgroundColor: '#003A5C' }
                       }}
                     >
-                      Відправити
+                      {t('send')}
                     </Button>
                   </Box>
                 </CardContent>
               </Card>
             </Box>
-            
             <Box sx={{ flex: '1 1 300px', minWidth: 0 }}>
               <Card sx={{ height: '100%' }}>
                 <CardContent sx={{ p: 4 }}>
                   <Typography variant="h4" gutterBottom sx={{ color: '#004975', fontWeight: 'bold' }}>
-                    Контактна інформація
+                    {t('infoTitle')}
                   </Typography>
                   
                   <Box sx={{ mt: 3 }}>
@@ -85,10 +86,10 @@ export default function ContactPage() {
                       <LocationOn sx={{ mr: 2, color: '#004975' }} />
                       <Box>
                         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                          Адреса
+                          {t('addressLabel')}
                         </Typography>
                         <Typography variant="body1" sx={{ color: '#666' }}>
-                          с.Михайлівка, вул. Першотравнева, 124
+                          {t('addressValue')}
                         </Typography>
                       </Box>
                     </Box>
@@ -97,10 +98,10 @@ export default function ContactPage() {
                       <Phone sx={{ mr: 2, color: '#004975' }} />
                       <Box>
                         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                          Телефон
+                          {t('phoneLabel')}
                         </Typography>
                         <Typography variant="body1" sx={{ color: '#666' }}>
-                          +380 (67) 123-45-67
+                          {t('phoneValue')}
                         </Typography>
                       </Box>
                     </Box>
@@ -109,10 +110,10 @@ export default function ContactPage() {
                       <Email sx={{ mr: 2, color: '#004975' }} />
                       <Box>
                         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                          Email
+                          {t('emailLabel')}
                         </Typography>
                         <Typography variant="body1" sx={{ color: '#666' }}>
-                          info@remonttnvd.com
+                          {t('emailValue')}
                         </Typography>
                       </Box>
                     </Box>
@@ -121,13 +122,13 @@ export default function ContactPage() {
                       <AccessTime sx={{ mr: 2, color: '#004975' }} />
                       <Box>
                         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                          Графік роботи
+                          {t('hoursLabel')}
                         </Typography>
-                        <Typography variant="body1" sx={{ color: '#666' }}>
-                          Пн-Пт: 8:00 - 18:00<br />
-                          Сб: 9:00 - 16:00<br />
-                          Нд: Вихідний
-                        </Typography>
+                        <Typography 
+                          variant="body1" 
+                          sx={{ color: '#666' }}
+                          dangerouslySetInnerHTML={{ __html: t('hoursValue') }}
+                        />
                       </Box>
                     </Box>
                   </Box>
@@ -138,7 +139,7 @@ export default function ContactPage() {
           
           <Box sx={{ mt: 6 }}>
             <Typography variant="h4" textAlign="center" gutterBottom sx={{ color: '#004975', fontWeight: 'bold' }}>
-              Ми на карті
+              {t('mapTitle')}
             </Typography>
             <Box
               sx={{

@@ -17,6 +17,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "RemontTnvd.com - Ремонт ТНВД",
   description: "Професійний ремонт ТНВД (топливного насоса високого тиску) в с.Михайлівка. Якісний сервіс, гарантія, сучасне обладнання.",
+  icons: {
+    icon: '/favicon.png',
+    apple: '/favicon.png',
+  },
 };
 
 export default function RootLayout({
@@ -25,12 +29,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
+    <html suppressHydrationWarning>
       <head>
         <meta name="emotion-insertion-point" content="" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
         <AppRouterCacheProvider options={{ key: 'mui' }}>
           <CustomThemeProvider>

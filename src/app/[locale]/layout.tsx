@@ -3,41 +3,37 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales } from '@/i18n';
 import ClientLayout from '@/components/ClientLayout';
-import { Geist, Geist_Mono } from "next/font/google";
+import Script from 'next/script';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+export async function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
 
 export default async function LocaleLayout({
   children,
   params
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
   
-  // Валідація локалі
   if (!locales.includes(locale as any)) {
     notFound();
   }
 
-  // Отримання перекладів
-  const messages = await getMessages();
-
+  const messages = await getMessages({ locale });
 
   return (
-    <NextIntlClientProvider messages={messages} locale={locale}>
-      <ClientLayout>
-        {children}
-      </ClientLayout>
-    </NextIntlClientProvider>
+    <>
+      <Script id="set-locale-lang" strategy="beforeInteractive">
+        {`document.documentElement.lang = '${locale}';`}
+      </Script>
+      <NextIntlClientProvider messages={messages} locale={locale}>
+        <ClientLayout>
+          {children}
+        </ClientLayout>
+      </NextIntlClientProvider>
+    </>
   );
 }
