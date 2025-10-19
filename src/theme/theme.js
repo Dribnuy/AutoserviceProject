@@ -151,7 +151,7 @@ const theme = createTheme({
           backgroundColor: colors.primary.main,
           color: colors.primary.contrastText,
           '&:hover': {
-            backgroundColor: colors.primary.dark,
+            backgroundColor: '#008000',
           },
         },
         outlined: {
