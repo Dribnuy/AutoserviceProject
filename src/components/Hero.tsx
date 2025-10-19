@@ -73,7 +73,6 @@ const Hero = () => {
         justifyContent: 'center',
       }}
     >
-      {/* Карусель зображень */}
       <Box
         sx={{
           position: 'absolute',
@@ -121,7 +120,7 @@ const Hero = () => {
           top: '50%',
           transform: 'translateY(-50%)',
           zIndex: 3,
-          backgroundColor: 'rgba(255, 255, 255, 0.2)',
+          backgroundColor: '#004975',
           color: 'white',
           '&:hover': {
             backgroundColor: 'rgba(255, 255, 255, 0.3)',
@@ -205,18 +204,18 @@ const Hero = () => {
           variant="contained"
           size="large"
           sx={{
-            backgroundColor: '#FF6B35',
+            backgroundColor: '#004975',
             color: 'white',
             px: 4,
             py: 2,
             fontSize: '1.2rem',
             fontWeight: 'bold',
             borderRadius: 3,
-            boxShadow: '0 4px 20px rgba(255, 107, 53, 0.4)',
+            
             '&:hover': {
-              backgroundColor: '#E55A2B',
+              backgroundColor: '#008000',
               transform: 'translateY(-2px)',
-              boxShadow: '0 6px 25px rgba(255, 107, 53, 0.6)',
+             
             },
             transition: 'all 0.3s ease',
           }}

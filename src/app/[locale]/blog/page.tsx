@@ -1,3 +1,4 @@
+'use client';
 
 import {
   Container,
@@ -211,10 +212,10 @@ export default function BlogPage() {
           
           <Box sx={{ textAlign: 'center', mt: 8, p: 4, backgroundColor: '#004975', borderRadius: 3 }}>
             <Typography variant="h4" sx={{ color: 'white', mb: 2, fontWeight: 'bold' }}>
-              Підписуйтесь на оновлення блогу!
+              {t('newsletter.title')}
             </Typography>
             <Typography variant="h6" sx={{ color: '#E0F2FF', mb: 3 }}>
-              Отримуйте нові статті про ремонт ТНВД прямо на пошту
+              {t('newsletter.subtitle')}
             </Typography>
             <Button
               variant="contained"
@@ -232,7 +233,7 @@ export default function BlogPage() {
                 },
               }}
             >
-              Підписатися на розсилку
+              {t('newsletter.button')}
             </Button>
           </Box>
         </Container>

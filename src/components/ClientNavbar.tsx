@@ -34,26 +34,8 @@ const ClientNavbar = () => {
   const [mobileMenuAnchor, setMobileMenuAnchor] = useState<null | HTMLElement>(null);
   const [isClient, setIsClient] = useState(false);
 
-  // Виправлення гідратації згідно з документацією Next.js
   useEffect(() => {
     setIsClient(true);
-    console.log('ClientNavbar locale:', locale);
-    console.log('ClientNavbar translations test:', {
-      home: t('nav.home'),
-      services: t('nav.services'),
-      about: t('nav.about'),
-      contact: t('nav.contact')
-    });
-    
-    // Додаткова перевірка для UK локалі
-    if (locale === 'uk') {
-      console.log('UK locale in ClientNavbar - checking translations:', {
-        home: t('nav.home'),
-        services: t('nav.services'),
-        about: t('nav.about'),
-        contact: t('nav.contact')
-      });
-    }
   }, [locale, t]);
 
   const navItems = [
@@ -70,17 +52,11 @@ const ClientNavbar = () => {
     
     const newLocale = event.target.value;
     
-    console.log('Language change initiated:', { 
-      currentLocale: locale, 
-      newLocale, 
-      currentPath: pathname 
-    });
     
     try {
       const currentPath = pathname || '/';
       let pathWithoutLocale = currentPath;
       
-      // Remove current locale from path
       if (currentPath.startsWith(`/${locale}/`)) {
         pathWithoutLocale = currentPath.substring(`/${locale}`.length);
       } else if (currentPath === `/${locale}`) {
@@ -89,17 +65,13 @@ const ClientNavbar = () => {
         pathWithoutLocale = currentPath.substring(`/${locale}`.length);
       }
       
-      // Ensure path starts with /
       if (!pathWithoutLocale || pathWithoutLocale === '' || !pathWithoutLocale.startsWith('/')) {
         pathWithoutLocale = '/';
       }
       
-      // Create new path with new locale
       const newPath = `/${newLocale}${pathWithoutLocale}`.replace(/\/+/g, '/');
       
-      console.log('Navigating to:', newPath);
       
-      // Force page reload to ensure locale change
       window.location.assign(newPath);
     } catch (error) {
       console.error('Error switching language:', error);
@@ -119,7 +91,6 @@ const ClientNavbar = () => {
     return pathname === href;
   };
 
-  // Показуємо заглушку до гідратації
   if (!isClient) {
     return (
       <AppBar position="sticky" elevation={1} sx={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid #E0E0E0' }}>
@@ -157,7 +128,6 @@ const ClientNavbar = () => {
     <AppBar position="sticky" elevation={1} sx={{ backgroundColor: '#FFFFFF', borderBottom: '1px solid #E0E0E0' }} suppressHydrationWarning>
       <Container maxWidth="lg">
         <Toolbar sx={{ justifyContent: 'space-between', py: 1 }}>
-          {/* logo */}
           <Link href={`/${locale}`} style={{ textDecoration: 'none' }}>
             <Box sx={{ 
               color: '#004975', 
@@ -200,7 +170,6 @@ const ClientNavbar = () => {
                 </Button>
               ))}
 
-              {/* lan switcher 	*/}
               <Box sx={{ display: 'flex', alignItems: 'center', ml: 3 }}>
                 <LanguageIcon sx={{ color: '#004975', mr: 1, fontSize: '1.2rem' }} />
                 <Select
@@ -232,7 +201,6 @@ const ClientNavbar = () => {
             </Box>
           )}
 
-          {/* mobile */}
           {isMobile && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
               

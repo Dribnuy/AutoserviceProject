@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
-// Define color palette
+
 const colors = {
   primary: {
     main: '#004975',
@@ -57,11 +57,8 @@ const colors = {
   },
 };
 
-// Create the theme
 const theme = createTheme({
   palette: colors,
-  
-  // Typography settings
   typography: {
     fontFamily: [
       'Helvetica',
@@ -124,10 +121,8 @@ const theme = createTheme({
     },
   },
 
-  // Spacing configuration
-  spacing: 8, // 8px base unit
+  spacing: 8,
 
-  // Breakpoints for responsive design
   breakpoints: {
     values: {
       xs: 0,
@@ -138,9 +133,7 @@ const theme = createTheme({
     },
   },
 
-  // Component overrides
   components: {
-    // Button component customization
     MuiButton: {
       styleOverrides: {
         root: {
@@ -178,7 +171,6 @@ const theme = createTheme({
       },
     },
 
-    // Card component customization
     MuiCard: {
       styleOverrides: {
         root: {
@@ -192,7 +184,6 @@ const theme = createTheme({
       },
     },
 
-    // TextField component customization
     MuiTextField: {
       styleOverrides: {
         root: {
@@ -210,7 +201,6 @@ const theme = createTheme({
       },
     },
 
-    // Container component customization
     MuiContainer: {
       styleOverrides: {
         root: {
@@ -220,7 +210,6 @@ const theme = createTheme({
       },
     },
 
-    // Typography component customization
     MuiTypography: {
       styleOverrides: {
         root: {
@@ -231,7 +220,6 @@ const theme = createTheme({
       },
     },
 
-    // AppBar component customization
     MuiAppBar: {
       styleOverrides: {
         root: {
@@ -241,7 +229,6 @@ const theme = createTheme({
       },
     },
 
-    // Chip component customization
     MuiChip: {
       styleOverrides: {
         root: {
@@ -253,10 +240,9 @@ const theme = createTheme({
     },
   },
 
-  // Shape configuration
   shape: {
     borderRadius: 8,
-  },
+  }
 });
 
 export default theme;

@@ -1,8 +1,11 @@
-
+'use client';
 
 import { Container, Typography, Box, Card, CardContent } from '@mui/material';
+import { useTranslations } from 'next-intl';
 
 export default function AboutPage() {
+  const t = useTranslations('common.about');
+
   return (
     <main>
       <Box sx={{ py: 8, backgroundColor: '#F8F9FA' }}>
@@ -18,7 +21,7 @@ export default function AboutPage() {
               mb: 6,
             }}
           >
-            Про нас
+            {t('title')}
           </Typography>
           
           <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 4 }}>
@@ -26,10 +29,10 @@ export default function AboutPage() {
               <Card sx={{ height: '100%' }}>
                 <CardContent sx={{ p: 4 }}>
                   <Typography variant="h4" gutterBottom sx={{ color: '#004975', fontWeight: 'bold' }}>
-                    Наша історія
+                    {t('ourStory')}
                   </Typography>
                   <Typography variant="body1" sx={{ lineHeight: 1.8, color: '#666' }}>
-                    Ми працюємо на ринку автосервісу понад 10 років. Наша команда кваліфікованих майстрів забезпечує якісний ремонт та обслуговування автомобілів різних марок та моделей.
+                    {t('storyText')}
                   </Typography>
                 </CardContent>
               </Card>
@@ -39,20 +42,20 @@ export default function AboutPage() {
               <Card sx={{ height: '100%' }}>
                 <CardContent sx={{ p: 4 }}>
                   <Typography variant="h4" gutterBottom sx={{ color: '#004975', fontWeight: 'bold' }}>
-                    Наші переваги
+                    {t('ourAdvantages')}
                   </Typography>
                   <Box sx={{ mt: 2 }}>
                     <Typography variant="body1" sx={{ mb: 1, color: '#666' }}>
-                      Сучасне обладнання
+                      ✓ {t('advantages.modernEquipment')}
                     </Typography>
                     <Typography variant="body1" sx={{ mb: 1, color: '#666' }}>
-                      Досвідчені майстри
+                      ✓ {t('advantages.experiencedMasters')}
                     </Typography>
                     <Typography variant="body1" sx={{ mb: 1, color: '#666' }}>
-                      Гарантія на роботи
+                      ✓ {t('advantages.warranty')}
                     </Typography>
                     <Typography variant="body1" sx={{ mb: 1, color: '#666' }}>
-                      Швидкий сервіс
+                      ✓ {t('advantages.fastService')}
                     </Typography>
                   </Box>
                 </CardContent>
