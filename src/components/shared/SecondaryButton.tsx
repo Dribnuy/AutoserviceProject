@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from '@mui/material';
+import { Button, ButtonProps, useTheme } from '@mui/material';
 import { forwardRef } from 'react';
 
 interface SecondaryButtonProps extends Omit<ButtonProps, 'variant'> {
@@ -7,13 +7,15 @@ interface SecondaryButtonProps extends Omit<ButtonProps, 'variant'> {
 
 const SecondaryButton = forwardRef<HTMLButtonElement, SecondaryButtonProps>(
   ({ children, sx, ...props }, ref) => {
+    const theme = useTheme();
+    
     return (
       <Button
         ref={ref}
         variant="outlined"
         sx={{
-          borderColor: '#004975',
-          color: '#004975',
+          borderColor: theme.palette.primary.main,
+          color: theme.palette.primary.main,
           px: 3,
           py: 1.5,
           fontSize: '1rem',
@@ -21,8 +23,8 @@ const SecondaryButton = forwardRef<HTMLButtonElement, SecondaryButtonProps>(
           borderRadius: 2,
           textTransform: 'none',
           '&:hover': {
-            backgroundColor: '#004975',
-            color: 'white',
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
             transform: 'translateY(-2px)',
           },
           transition: 'all 0.3s ease',
