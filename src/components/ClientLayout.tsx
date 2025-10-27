@@ -3,6 +3,7 @@
 import { Box } from '@mui/material';
 import ClientNavbar from '@/components/ClientNavbar';
 import Footer from '@/components/Footer';
+import { AuthProvider } from '@/context/AuthContext';
 
 interface ClientLayoutProps {
   children: React.ReactNode;
@@ -10,15 +11,17 @@ interface ClientLayoutProps {
 
 const ClientLayout = ({ children }: ClientLayoutProps) => {
   return (
-    <Box 
-      sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
-    >
-      <ClientNavbar />
-      <Box component="main" sx={{ flexGrow: 1 }}>
-        {children}
+    <AuthProvider>
+      <Box 
+        sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}
+      >
+        <ClientNavbar />
+        <Box component="main" sx={{ flexGrow: 1 }}>
+          {children}
+        </Box>
+        <Footer />
       </Box>
-      <Footer />
-    </Box>
+    </AuthProvider>
   );
 };
 

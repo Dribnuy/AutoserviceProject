@@ -1,181 +1,117 @@
 'use client';
 
 import { useState } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
-import {
-  Box,
-  Button,
-  TextField,
-  Typography,
+import { useAuth } from '../context/AuthContext'; 
+import { 
+  Box, 
+  Button, 
+  TextField, 
+  Typography, 
+  Alert, 
   Paper,
-  Alert,
-  Tabs,
-  Tab,
-  Divider
+  CircularProgress,
+  Link,
+  Stack
 } from '@mui/material';
-import GoogleIcon from '@mui/icons-material/Google';
-
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`auth-tabpanel-${index}`}
-      aria-labelledby={`auth-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
-    </div>
-  );
-}
 
 export default function AuthForm() {
-  const { signIn, signUp, signInWithGoogle, loading } = useAuth();
-  const [tabValue, setTabValue] = useState(0);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [isLogin, setIsLogin] = useState(true); 
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTabValue(newValue);
-    setError('');
-  };
+  const { signUp, signIn, signInWithGoogle } = useAuth();
 
-  const handleEmailAuth = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     setError('');
 
     try {
-      if (tabValue === 0) {
+      if (isLogin) {
         await signIn(email, password);
       } else {
         await signUp(email, password);
       }
-    } catch (error: any) {
-      setError(error.message || 'Authentication failed');
+    } catch (err: any) {
+      setError(err.message || 'Сталася помилка. Спробуйте ще раз.');
     }
+    setLoading(false);
   };
 
-  const handleGoogleAuth = async () => {
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
     setError('');
     try {
       await signInWithGoogle();
-    } catch (error: any) {
-      setError(error.message || 'Google authentication failed');
+    } catch (err: any) {
+      setError(err.message || 'Помилка входу через Google.');
     }
+    setLoading(false);
   };
 
   return (
-    <Paper sx={{ maxWidth: 400, mx: 'auto', mt: 4 }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={tabValue} onChange={handleTabChange} aria-label="auth tabs">
-          <Tab label="Sign In" />
-          <Tab label="Sign Up" />
-        </Tabs>
-      </Box>
-
-      <TabPanel value={tabValue} index={0}>
-        <Typography variant="h6" gutterBottom>
-          Sign In
+    <Paper elevation={3} sx={{ padding: 4, maxWidth: 400, margin: 'auto' }}>
+      <Box component="form" onSubmit={handleSubmit}>
+        <Typography variant="h5" component="h1" gutterBottom textAlign="center">
+          {isLogin ? 'Вхід' : 'Реєстрація'}
         </Typography>
-        <form onSubmit={handleEmailAuth}>
+        
+        <Stack spacing={2}>
           <TextField
-            fullWidth
             label="Email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            margin="normal"
             required
+            fullWidth
           />
           <TextField
-            fullWidth
-            label="Password"
+            label="Пароль"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            margin="normal"
             required
-          />
-          <Button
-            type="submit"
             fullWidth
-            variant="contained"
-            sx={{ mt: 2, mb: 2 }}
+          />
+          
+          {error && <Alert severity="error">{error}</Alert>}
+          
+          <Button 
+            type="submit" 
+            variant="contained" 
+            fullWidth 
+            disabled={loading}
+            startIcon={loading ? <CircularProgress size={20} /> : null}
+          >
+            {isLogin ? 'Увійти' : 'Зареєструватися'}
+          </Button>
+
+          <Button 
+            variant="outlined" 
+            fullWidth 
+            onClick={handleGoogleSignIn} 
             disabled={loading}
           >
-            {loading ? 'Signing In...' : 'Sign In'}
+            Увійти через Google
           </Button>
-        </form>
-      </TabPanel>
-
-      <TabPanel value={tabValue} index={1}>
-        <Typography variant="h6" gutterBottom>
-          Sign Up
-        </Typography>
-        <form onSubmit={handleEmailAuth}>
-          <TextField
-            fullWidth
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            margin="normal"
-            required
-          />
-          <TextField
-            fullWidth
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            margin="normal"
-            required
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 2, mb: 2 }}
-            disabled={loading}
+          
+          <Link
+            component="button"
+            variant="body2"
+            onClick={() => {
+              setIsLogin(!isLogin);
+              setError('');
+            }}
+            sx={{ textAlign: 'center', mt: 2 }}
           >
-            {loading ? 'Creating Account...' : 'Sign Up'}
-          </Button>
-        </form>
-      </TabPanel>
-
-      <Divider sx={{ my: 2 }}>OR</Divider>
-
-      <Box sx={{ p: 2 }}>
-        <Button
-          fullWidth
-          variant="outlined"
-          startIcon={<GoogleIcon />}
-          onClick={handleGoogleAuth}
-          disabled={loading}
-          sx={{ mb: 2 }}
-        >
-          Continue with Google
-        </Button>
+            {isLogin 
+              ? 'Немає акаунту? Зареєструватися' 
+              : 'Вже є акаунт? Увійти'}
+          </Link>
+        </Stack>
       </Box>
-
-      {error && (
-        <Alert severity="error" sx={{ m: 2 }}>
-          {error}
-        </Alert>
-      )}
     </Paper>
   );
 }
