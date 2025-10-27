@@ -4,8 +4,8 @@ import { createTheme } from '@mui/material/styles';
 const colors = {
   primary: {
     main: '#004975',
-    light: '#0066A1',
-    dark: '#003A5C',
+    light: '#004975',
+    dark: '#004975',
     contrastText: '#FFFFFF',
   },
   secondary: {

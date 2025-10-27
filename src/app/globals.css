@@ -3,6 +3,27 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  /* Primary colors */
+  --primary-main: #004975;
+  --primary-light: #004975;
+  --primary-dark: #004975;
+  --primary-contrast-text: #FFFFFF;
+  
+  /* Secondary colors */
+  --secondary-main: #FF6B35;
+  --secondary-light: #FF8A5B;
+  --secondary-dark: #E55A2B;
+  --secondary-contrast-text: #FFFFFF;
+  
+  /* Background colors */
+  --background-default: #F8F9FA;
+  --background-paper: #FFFFFF;
+  
+  /* Text colors */
+  --text-primary: #1A1A1A;
+  --text-secondary: #666666;
+  --text-disabled: #CCCCCC;
 }
 
 @theme inline {
