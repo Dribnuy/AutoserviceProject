@@ -13,7 +13,7 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
-import { auth, db } from '../../config/firebase'; // Імпорт з вашого firebase.js
+import { auth, db } from '../../config/firebase'; 
 
 interface AuthContextType {
   user: User | null;

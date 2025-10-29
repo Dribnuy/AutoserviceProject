@@ -1,12 +1,12 @@
 'use client';
 
-import { Container, Box, Typography } from '@mui/material';
+import { Container, Box, Typography, Button, Stack } from '@mui/material';
 import FirebaseTest from '@/components/FirebaseText';
 import AuthForm from '@/components/AuthForm';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/context/AuthContext'; 
 
 export default function TestPage() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <main>
@@ -29,6 +29,26 @@ export default function TestPage() {
           {!user && (
             <Box sx={{ mb: 4 }}>
               <AuthForm />
+            </Box>
+          )}
+
+         
+          {user && (
+            <Box
+              sx={{
+                mb: 4,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 2,
+              }}
+            >
+              <Typography variant="h6">
+                Вітаємо, {user.displayName || user.email}!
+              </Typography>
+              <Button variant="contained" color="secondary" onClick={logout}>
+                Вийти
+              </Button>
             </Box>
           )}
 
