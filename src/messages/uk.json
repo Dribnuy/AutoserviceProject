@@ -33,7 +33,7 @@
       "learnMore": "Перейти",
       "brands": {
         "bosch": "Bosch",
-        "piezo": "Piezo Continental",
+        "piezo": "Continental",
         "delphi": "Delphi",
         "denso": "Denso"
       },
@@ -223,8 +223,7 @@
         "readTime": "9 хв"
       }
     }
-  }
-  ,
+  },
   "boschPage": {
     "breadcrumb": "Форсунки Bosch",
     "title": "Форсунки Bosch",
@@ -250,8 +249,7 @@
     "noResultsTitle": "Форсунок не знайдено",
     "noResultsSubtitle": "Спробуйте змінити параметри пошуку або скинути фільтри",
     "resetFilters": "Скинути фільтри"
-  }
-  ,
+  },
   "delphiPage": {
     "breadcrumb": "Форсунки Delphi",
     "title": "Форсунки Delphi",
@@ -329,5 +327,296 @@
     "noResultsTitle": "Форсунок не знайдено",
     "noResultsSubtitle": "Спробуйте змінити параметри пошуку або скинути фільтри",
     "resetFilters": "Скинути фільтри"
+  },
+  "admin": {
+    "login": {
+      "title": "Адмін-панель",
+      "subtitle": "Введіть ключ доступу для входу в адмін-панель",
+      "accessKeyLabel": "Ключ доступу",
+      "loginButton": "Увійти",
+      "error": "Невірний ключ доступу",
+      "accessHint": "Для доступу використайте URL: /uk/admin?key=your-key"
+    },
+    "dashboard": {
+      "title": "Адмін-панель",
+      "subtitle": "Управління контентом сайту",
+      "logoutButton": "Вийти",
+      "tabs": {
+        "blog": "Блог",
+        "manufacturers": "Виробники",
+        "injectors": "Форсунки",
+        "fuelPumps": "Роботи"
+      },
+      "fuelPumpManager": {
+        "title": "Управління ТНВД",
+        "wip": "Функціонал в розробці"
+      }
+    },
+    "blogManager": {
+      "title": "Статті блогу ({count})",
+      "addNew": "Додати статтю",
+      "emptyState": "Статей поки немає. Додайте першу статтю!",
+      "confirmDelete": "Ви впевнені, що хочете видалити цю статтю?",
+      "errors": {
+        "load": "Помилка завантаження статей",
+        "requiredFields": "Заповніть всі обов'язкові поля (назва, опис, контент)",
+        "save": "Помилка збереження статті",
+        "delete": "Помилка видалення статті"
+      },
+      "success": {
+        "updated": "Статтю оновлено успішно",
+        "created": "Статтю створено успішно",
+        "deleted": "Статтю видалено"
+      },
+      "table": {
+        "image": "Зображення",
+        "title": "Назва",
+        "slug": "Slug",
+        "tags": "Теги",
+        "status": "Статус",
+        "publishedAt": "Дата публікації",
+        "actions": "Дії"
+      },
+      "status": {
+        "published": "Опубліковано",
+        "draft": "Чернетка",
+        "notPublished": "Не опубліковано"
+      },
+      "actions": {
+        "view": "Переглянути",
+        "edit": "Редагувати",
+        "delete": "Видалити"
+      },
+      "dialog": {
+        "titleEdit": "Редагувати статтю",
+        "titleNew": "Нова стаття",
+        "cancel": "Скасувати",
+        "update": "Оновити",
+        "create": "Створити"
+      },
+      "form": {
+        "title": {
+          "label": "Назва статті *",
+          "placeholder": "Введіть назву статті"
+        },
+        "slug": {
+          "label": "Slug (автогенерується)",
+          "helper": "URL-адреса статті. Генерується автоматично з назви",
+          "placeholder": "naprklad-remont-forsunok"
+        },
+        "excerpt": {
+          "label": "Короткий опис (excerpt) *",
+          "helper": "Відображається в картці статті. Рекомендовано 150-200 символів",
+          "placeholder": "Короткий опис статті, який буде відображатись у списку..."
+        },
+        "cover": {
+          "title": "Обкладинка статті",
+          "button": "Завантажити нове зображення",
+          "helper": "Рекомендований розмір: 1200x600px"
+        },
+        "contentMD": {
+          "label": "Контент Markdown *",
+          "helper": "Основний текст статті у форматі Markdown",
+          "placeholder": "# Заголовок\n\nТекст статті..."
+        },
+        "contentHTML": {
+          "label": "Контент HTML (опціонально)",
+          "helper": "HTML версія контенту. Якщо не заповнено, буде використано Markdown",
+          "placeholder": "<p>HTML контент...</p>"
+        },
+        "tags": {
+          "title": "Теги статті",
+          "label": "Додати тег",
+          "placeholder": "Наприклад: ремонт",
+          "button": "Додати"
+        },
+        "publish": {
+          "label": "Опублікувати статтю",
+          "helperPublished": "Стаття буде видима на сайті",
+          "helperDraft": "Стаття збережеться як чернетка"
+        }
+      }
+    },
+    "manufacturerManager": {
+      "title": "Виробники форсунок",
+      "addNew": "Додати виробника",
+      "emptyState": "Виробників ще немає. Додайте першого!",
+      "confirmDelete": "Ви впевнені? Це видалить всі пов'язані форсунки!",
+      "errors": {
+        "load": "Помилка завантаження виробників",
+        "requiredFields": "Заповніть обов'язкові поля",
+        "save": "Помилка збереження",
+        "delete": "Помилка видалення"
+      },
+      "success": {
+        "updated": "Виробника успішно оновлено!",
+        "created": "Виробника успішно додано!",
+        "deleted": "Виробника успішно видалено!"
+      },
+      "dialog": {
+        "titleEdit": "Редагувати виробника",
+        "titleNew": "Додати виробника",
+        "cancel": "Скасувати",
+        "update": "Оновити",
+        "create": "Додати"
+      },
+      "form": {
+        "nameUk": {
+          "label": "Назва (UA) *",
+          "placeholder": "Bosch"
+        },
+        "nameEn": {
+          "label": "Назва (EN) *",
+          "placeholder": "Bosch"
+        },
+        "descriptionUk": {
+          "label": "Опис (UA)",
+          "placeholder": "Опис виробника українською"
+        },
+        "descriptionEn": {
+          "label": "Опис (EN)",
+          "placeholder": "Manufacturer description in English"
+        }
+      }
+    },
+    "injectorManager": {
+      "title": "Форсунки",
+      "addNew": "Додати форсунку",
+      "emptyState": "Форсунок ще немає. Додайте першу!",
+      "noManufacturers": "Спочатку додайте виробників на вкладці \"Виробники\"",
+      "confirmDelete": "Ви впевнені, що хочете видалити цю форсунку?",
+      "errors": {
+        "load": "Помилка завантаження",
+        "save": "Помилка збереження",
+        "delete": "Помилка видалення",
+        "requiredFields": "Заповніть обов'язкові поля",
+        "fileSize": "Розмір файлу не повинен перевищувати 5MB",
+        "fileType": "Будь ласка, завантажте зображення"
+      },
+      "success": {
+        "updated": "Форсунку успішно оновлено!",
+        "created": "Форсунку успішно додано!",
+        "deleted": "Форсунку успішно видалено!"
+      },
+      "table": {
+        "manufacturer": "Виробник",
+        "name": "Назва",
+        "partNumber": "Артикул",
+        "pressure": "Тиск",
+        "vehicles": "Автомобілі",
+        "actions": "Дії"
+      },
+      "dialog": {
+        "titleEdit": "Редагувати форсунку",
+        "titleNew": "Додати форсунку",
+        "cancel": "Скасувати",
+        "update": "Оновити",
+        "create": "Додати"
+      },
+      "form": {
+        "manufacturer": {
+          "label": "Виробник"
+        },
+        "nameUk": {
+          "label": "Назва (UA) *",
+          "placeholder": "Bosch Common Rail Injector 0445110"
+        },
+        "nameEn": {
+          "label": "Назва (EN)",
+          "placeholder": "Bosch Common Rail Injector 0445110"
+        },
+        "partNumber": {
+          "label": "Артикул *",
+          "placeholder": "0445110376"
+        },
+        "vehicles": {
+          "label": "Автомобілі (через кому)",
+          "placeholder": "Mercedes Sprinter 2.2 TDI, Mercedes C-Class W204"
+        },
+        "descriptionUk": {
+          "label": "Опис (UA)"
+        },
+        "descriptionEn": {
+          "label": "Опис (EN)"
+        },
+        "specifications": {
+          "title": "Технічні характеристики:",
+          "pressure": "Тиск",
+          "pressurePlaceholder": "1600 bar",
+          "flowRate": "Продуктивність",
+          "flowRatePlaceholder": "1000 cc/min",
+          "voltage": "Напруга",
+          "voltagePlaceholder": "12V"
+        },
+        "image": {
+          "title": "Зображення *",
+          "urlLabel": "URL зображення",
+          "urlPlaceholder": "https://example.com/image.jpg",
+          "urlHelper": "Вставте пряме посилання на зображення"
+        }
+      }
+    },
+    "worksManager": {
+      "title": "Управління роботами ({count})",
+      "addNew": "Додати роботу",
+      "confirmDelete": "Видалити цю роботу?",
+      "errors": {
+        "load": "Помилка завантаження робіт",
+        "requiredFields": "Заповніть обов'язкові поля",
+        "save": "Помилка збереження",
+        "delete": "Помилка видалення"
+      },
+      "success": {
+        "updated": "Роботу оновлено",
+        "created": "Роботу створено",
+        "deleted": "Роботу видалено"
+      },
+      "table": {
+        "title": "Назва",
+        "vehicle": "Авто",
+        "customer": "Клієнт",
+        "date": "Дата",
+        "status": "Статус",
+        "locale": "Мова",
+        "actions": "Дії"
+      },
+      "dialog": {
+        "titleEdit": "Редагування роботи",
+        "titleNew": "Нова робота",
+        "cancel": "Скасувати",
+        "update": "Оновити",
+        "create": "Створити"
+      },
+      "form": {
+        "groupBasic": "Основна інформація",
+        "title": "Назва роботи *",
+        "locale": "Мова",
+        "localeUk": "Українська",
+        "localeEn": "English",
+        "status": "Статус",
+        "statusDraft": "Чернетка",
+        "statusPublished": "Опубліковано",
+        "statusArchived": "Архів",
+        "groupVehicle": "Інформація про авто",
+        "customerInitials": "Ініціали клієнта *",
+        "vinHashed": "VIN (хешований)",
+        "vehicleMake": "Марка авто *",
+        "vehicleModel": "Модель",
+        "vehicleYear": "Рік",
+        "groupDetails": "Деталі роботи",
+        "manufacturerId": "ID виробника",
+        "injectorId": "ID форсунки",
+        "workDate": "Дата виконання",
+        "services": "Послуги",
+        "testimonial": "Відгук клієнта"
+      },
+      "services": {
+        "diagnostics": "діагностика",
+        "repair": "ремонт",
+        "adjustment": "налаштування",
+        "replacement": "заміна",
+        "cleaning": "чистка"
+      }
+    }
   }
 }

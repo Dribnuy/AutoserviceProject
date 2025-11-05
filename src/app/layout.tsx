@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RemontTnvd.com - Ремонт ТНВД",
+  title: "KorzhinskyService.com - Ремонт ТНВД",
   description: "Професійний ремонт ТНВД (топливного насоса високого тиску) в с.Михайлівка. Якісний сервіс, гарантія, сучасне обладнання.",
   icons: {
     icon: '/favicon.png',

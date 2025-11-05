@@ -23,7 +23,7 @@ const PrimaryButton = forwardRef<HTMLButtonElement, PrimaryButtonProps>(
           borderRadius: 2,
           textTransform: 'none',
           '&:hover': {
-            backgroundColor: theme.palette.primary.main,
+            backgroundColor: theme.palette.primary.hover,
             transform: 'translateY(-2px)',
           },
           transition: 'all 0.3s ease',
