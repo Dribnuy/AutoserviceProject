@@ -33,7 +33,7 @@
       "learnMore": "Learn More",
       "brands": {
         "bosch": "Bosch",
-        "piezo": "Piezo Continental",
+        "piezo": "Continental",
         "delphi": "Delphi",
         "denso": "Denso"
       },
@@ -223,8 +223,7 @@
         "readTime": "9 min"
       }
     }
-  }
-  ,
+  },
   "boschPage": {
     "breadcrumb": "Bosch Injectors",
     "title": "Bosch Injectors",
@@ -250,8 +249,7 @@
     "noResultsTitle": "No injectors found",
     "noResultsSubtitle": "Try changing your search parameters or resetting the filters",
     "resetFilters": "Reset filters"
-  }
-  ,
+  },
   "delphiPage": {
     "breadcrumb": "Delphi Injectors",
     "title": "Delphi Injectors",
@@ -329,5 +327,296 @@
     "noResultsTitle": "No injectors found",
     "noResultsSubtitle": "Try changing your search parameters or resetting the filters",
     "resetFilters": "Reset filters"
+  },
+  "admin": {
+    "login": {
+      "title": "Admin Panel",
+      "subtitle": "Enter the access key to log in to the admin panel",
+      "accessKeyLabel": "Access Key",
+      "loginButton": "Log In",
+      "error": "Invalid access key",
+      "accessHint": "For access, use URL: /en/admin?key=your-key"
+    },
+    "dashboard": {
+      "title": "Admin Panel",
+      "subtitle": "Site Content Management",
+      "logoutButton": "Log Out",
+      "tabs": {
+        "blog": "Blog",
+        "manufacturers": "Manufacturers",
+        "injectors": "Injectors",
+        "fuelPumps": "Works"
+      },
+      "fuelPumpManager": {
+        "title": "Fuel Pump Management",
+        "wip": "Functionality in development"
+      }
+    },
+    "blogManager": {
+      "title": "Blog Articles ({count})",
+      "addNew": "Add Article",
+      "emptyState": "No articles yet. Add your first one!",
+      "confirmDelete": "Are you sure you want to delete this article?",
+      "errors": {
+        "load": "Error loading articles",
+        "requiredFields": "Please fill in all required fields (title, excerpt, content)",
+        "save": "Error saving article",
+        "delete": "Error deleting article"
+      },
+      "success": {
+        "updated": "Article updated successfully",
+        "created": "Article created successfully",
+        "deleted": "Article deleted"
+      },
+      "table": {
+        "image": "Image",
+        "title": "Title",
+        "slug": "Slug",
+        "tags": "Tags",
+        "status": "Status",
+        "publishedAt": "Published Date",
+        "actions": "Actions"
+      },
+      "status": {
+        "published": "Published",
+        "draft": "Draft",
+        "notPublished": "Not published"
+      },
+      "actions": {
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete"
+      },
+      "dialog": {
+        "titleEdit": "Edit Article",
+        "titleNew": "New Article",
+        "cancel": "Cancel",
+        "update": "Update",
+        "create": "Create"
+      },
+      "form": {
+        "title": {
+          "label": "Article Title *",
+          "placeholder": "Enter article title"
+        },
+        "slug": {
+          "label": "Slug (auto-generated)",
+          "helper": "URL-friendly version of the title. Generated automatically.",
+          "placeholder": "example-injector-repair"
+        },
+        "excerpt": {
+          "label": "Short Description (excerpt) *",
+          "helper": "Displays on the article card. Recommended 150-200 characters.",
+          "placeholder": "A short summary of the article that will be displayed in the list..."
+        },
+        "cover": {
+          "title": "Article Cover",
+          "button": "Upload new image",
+          "helper": "Recommended size: 1200x600px"
+        },
+        "contentMD": {
+          "label": "Markdown Content *",
+          "helper": "The main text of the article in Markdown format",
+          "placeholder": "# Heading\n\nArticle text..."
+        },
+        "contentHTML": {
+          "label": "HTML Content (optional)",
+          "helper": "HTML version of the content. If left empty, Markdown will be used.",
+          "placeholder": "<p>HTML content...</p>"
+        },
+        "tags": {
+          "title": "Article Tags",
+          "label": "Add tag",
+          "placeholder": "E.g., repair",
+          "button": "Add"
+        },
+        "publish": {
+          "label": "Publish Article",
+          "helperPublished": "Article will be visible on the site",
+          "helperDraft": "Article will be saved as a draft"
+        }
+      }
+    },
+    "manufacturerManager": {
+      "title": "Injector Manufacturers",
+      "addNew": "Add Manufacturer",
+      "emptyState": "No manufacturers yet. Add the first one!",
+      "confirmDelete": "Are you sure? This will delete all related injectors!",
+      "errors": {
+        "load": "Error loading manufacturers",
+        "requiredFields": "Please fill in required fields",
+        "save": "Error saving",
+        "delete": "Error deleting"
+      },
+      "success": {
+        "updated": "Manufacturer updated successfully!",
+        "created": "Manufacturer added successfully!",
+        "deleted": "Manufacturer deleted successfully!"
+      },
+      "dialog": {
+        "titleEdit": "Edit Manufacturer",
+        "titleNew": "Add Manufacturer",
+        "cancel": "Cancel",
+        "update": "Update",
+        "create": "Add"
+      },
+      "form": {
+        "nameUk": {
+          "label": "Name (UA) *",
+          "placeholder": "Bosch"
+        },
+        "nameEn": {
+          "label": "Name (EN) *",
+          "placeholder": "Bosch"
+        },
+        "descriptionUk": {
+          "label": "Description (UA)",
+          "placeholder": "Ukrainian manufacturer description"
+        },
+        "descriptionEn": {
+          "label": "Description (EN)",
+          "placeholder": "Manufacturer description in English"
+        }
+      }
+    },
+    "injectorManager": {
+      "title": "Injectors",
+      "addNew": "Add Injector",
+      "emptyState": "No injectors yet. Add the first one!",
+      "noManufacturers": "First add manufacturers in the \"Manufacturers\" tab",
+      "confirmDelete": "Are you sure you want to delete this injector?",
+      "errors": {
+        "load": "Error loading",
+        "save": "Error saving",
+        "delete": "Error deleting",
+        "requiredFields": "Please fill in required fields",
+        "fileSize": "File size must not exceed 5MB",
+        "fileType": "Please upload an image"
+      },
+      "success": {
+        "updated": "Injector updated successfully!",
+        "created": "Injector added successfully!",
+        "deleted": "Injector deleted successfully!"
+      },
+      "table": {
+        "manufacturer": "Manufacturer",
+        "name": "Name",
+        "partNumber": "Part Number",
+        "pressure": "Pressure",
+        "vehicles": "Vehicles",
+        "actions": "Actions"
+      },
+      "dialog": {
+        "titleEdit": "Edit Injector",
+        "titleNew": "Add Injector",
+        "cancel": "Cancel",
+        "update": "Update",
+        "create": "Add"
+      },
+      "form": {
+        "manufacturer": {
+          "label": "Manufacturer"
+        },
+        "nameUk": {
+          "label": "Name (UA) *",
+          "placeholder": "Bosch Common Rail Injector 0445110"
+        },
+        "nameEn": {
+          "label": "Name (EN)",
+          "placeholder": "Bosch Common Rail Injector 0445110"
+        },
+        "partNumber": {
+          "label": "Part Number *",
+          "placeholder": "0445110376"
+        },
+        "vehicles": {
+          "label": "Vehicles (comma separated)",
+          "placeholder": "Mercedes Sprinter 2.2 TDI, Mercedes C-Class W204"
+        },
+        "descriptionUk": {
+          "label": "Description (UA)"
+        },
+        "descriptionEn": {
+          "label": "Description (EN)"
+        },
+        "specifications": {
+          "title": "Technical Specifications:",
+          "pressure": "Pressure",
+          "pressurePlaceholder": "1600 bar",
+          "flowRate": "Flow Rate",
+          "flowRatePlaceholder": "1000 cc/min",
+          "voltage": "Voltage",
+          "voltagePlaceholder": "12V"
+        },
+        "image": {
+          "title": "Image *",
+          "urlLabel": "Image URL",
+          "urlPlaceholder": "https://example.com/image.jpg",
+          "urlHelper": "Insert direct link to image"
+        }
+      }
+    },
+    "worksManager": {
+      "title": "Works Management ({count})",
+      "addNew": "Add Work",
+      "confirmDelete": "Delete this work?",
+      "errors": {
+        "load": "Error loading works",
+        "requiredFields": "Please fill in required fields",
+        "save": "Error saving",
+        "delete": "Error deleting"
+      },
+      "success": {
+        "updated": "Work updated",
+        "created": "Work created",
+        "deleted": "Work deleted"
+      },
+      "table": {
+        "title": "Title",
+        "vehicle": "Vehicle",
+        "customer": "Customer",
+        "date": "Date",
+        "status": "Status",
+        "locale": "Locale",
+        "actions": "Actions"
+      },
+      "dialog": {
+        "titleEdit": "Edit Work",
+        "titleNew": "New Work",
+        "cancel": "Cancel",
+        "update": "Update",
+        "create": "Create"
+      },
+      "form": {
+        "groupBasic": "Basic Information",
+        "title": "Work Title *",
+        "locale": "Locale",
+        "localeUk": "Ukrainian",
+        "localeEn": "English",
+        "status": "Status",
+        "statusDraft": "Draft",
+        "statusPublished": "Published",
+        "statusArchived": "Archived",
+        "groupVehicle": "Vehicle Information",
+        "customerInitials": "Customer Initials *",
+        "vinHashed": "VIN (hashed)",
+        "vehicleMake": "Vehicle Make *",
+        "vehicleModel": "Model",
+        "vehicleYear": "Year",
+        "groupDetails": "Work Details",
+        "manufacturerId": "Manufacturer ID",
+        "injectorId": "Injector ID",
+        "workDate": "Work Date",
+        "services": "Services",
+        "testimonial": "Customer Testimonial"
+      },
+      "services": {
+        "diagnostics": "diagnostics",
+        "repair": "repair",
+        "adjustment": "adjustment",
+        "replacement": "replacement",
+        "cleaning": "cleaning"
+      }
+    }
   }
 }

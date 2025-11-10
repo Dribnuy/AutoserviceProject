@@ -102,7 +102,7 @@ const ClientNavbar = () => {
               fontSize: { xs: '1.2rem', md: '1.5rem' },
               fontFamily: 'Helvetica, Arial, sans-serif',
             }}>
-              REMONTTNVD.COM
+              KORZHINSKYISERVICE.COM
             </Box>
             <Box sx={{ 
               minWidth: 70, 
@@ -132,14 +132,14 @@ const ClientNavbar = () => {
             <Box sx={{ 
               color: '#004975', 
               fontWeight: 700, 
-              fontSize: { xs: '1.2rem', md: '1.5rem' },
+              fontSize: { xs: '0.8rem', md: '1.5rem' },
               fontFamily: 'Helvetica, Arial, sans-serif',
               '&:hover': {
                 color: '#003A5C',
               },
               transition: 'color 0.3s ease',
             }}>
-              REMONTTNVD.COM
+              KORZHINSKYISERVICE.COM
             </Box>
           </Link>
 
