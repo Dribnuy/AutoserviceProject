@@ -127,7 +127,8 @@
   "footer": {
     "rights": "Всі права захищені",
     "address": "c. Михайлівка, вул. Першотравнева, 124",
-    "phone": "+380 (67) 123-45-67",
+    "phone1": "+380-93-967-9386",
+    "phone2": "+380-68-723-5695",
     "email": "info@remonttnvd.com",
     "contactInfo": "Контактна інформація",
     "map": "Ми на карті"
@@ -145,7 +146,8 @@
     "addressLabel": "Адреса",
     "addressValue": "с.Михайлівка, вул. Першотравнева, 124",
     "phoneLabel": "Телефон",
-    "phoneValue": "+380 (67) 123-45-67",
+    "phoneValue1": "+380-93-967-9386",
+    "phoneValue2": "+380-68-723-5695",
     "emailLabel": "Email",
     "emailValue": "info@remonttnvd.com",
     "hoursLabel": "Графік роботи",
@@ -345,7 +347,8 @@
         "blog": "Блог",
         "manufacturers": "Виробники",
         "injectors": "Форсунки",
-        "fuelPumps": "Роботи"
+        "fuelPumps": "Роботи",
+        "messages": "Повідомлення"
       },
       "fuelPumpManager": {
         "title": "Управління ТНВД",
@@ -554,6 +557,16 @@
           "urlPlaceholder": "https://example.com/image.jpg",
           "urlHelper": "Вставте пряме посилання на зображення"
         }
+      },
+      "search": {
+        "placeholder": "Пошук за назвою, артикулом, виробником або автомобілем...",
+        "resultsFound": "Знайдено результатів:",
+        "noResults": "Нічого не знайдено за вашим запитом",
+        "clear": "Очистити пошук"
+      },
+      "pagination": {
+        "rowsPerPage": "Рядків на сторінці:",
+        "displayedRows": "{from}-{to} з {count}"
       }
     },
     "worksManager": {
@@ -617,6 +630,66 @@
         "replacement": "заміна",
         "cleaning": "чистка"
       }
-    }
+    },
+    "messagesManager": {
+        "title": "Управління повідомленнями",
+        "stats": {
+          "new": "Нові",
+          "read": "Прочитані",
+          "archived": "Архів"
+        },
+        "status": {
+          "new": "Нове",
+          "read": "Прочитано",
+          "archived": "Архівовано"
+        },
+        "filter": {
+          "status": "Статус",
+          "all": "Всі"
+        },
+        "search": {
+          "placeholder": "Пошук по імені, email, телефону або повідомленню...",
+          "clear": "Очистити пошук",
+          "resultsFound": "Знайдено:",
+          "noResults": "Нічого не знайдено за вашим запитом"
+        },
+        "table": {
+          "status": "Статус",
+          "name": "Ім'я",
+          "contact": "Контакти",
+          "message": "Повідомлення",
+          "date": "Дата",
+          "actions": "Дії"
+        },
+        "actions": {
+          "view": "Переглянути",
+          "delete": "Видалити"
+        },
+        "pagination": {
+          "rowsPerPage": "Рядків на сторінці:",
+          "of": "з"
+        },
+        "dialog": {
+          "title": "Деталі повідомлення",
+          "status": "Статус",
+          "name": "Ім'я",
+          "email": "Email",
+          "phone": "Телефон",
+          "date": "Дата відправки",
+          "message": "Повідомлення",
+          "close": "Закрити"
+        },
+        "confirmDelete": "Ви впевнені, що хочете видалити це повідомлення?",
+        "emptyState": "Поки що немає повідомлень",
+        "errors": {
+          "load": "Помилка завантаження повідомлень",
+          "delete": "Помилка видалення повідомлення",
+          "updateStatus": "Помилка оновлення статусу"
+        },
+        "success": {
+          "deleted": "Повідомлення успішно видалено",
+          "statusUpdated": "Статус повідомлення оновлено"
+        }
+      }
   }
 }

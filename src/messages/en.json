@@ -127,7 +127,8 @@
   "footer": {
     "rights": "All rights reserved",
     "address": "Mykhailivka village, Pershotravneva St, 124",
-    "phone": "+380 (67) 123-45-67",
+    "phone1": "+380-93-967-9386",
+    "phone2": "+380-68-723-5695",
     "email": "info@remonttnvd.com",
     "contactInfo": "Contact Information",
     "map": "Find us on map"
@@ -145,7 +146,8 @@
     "addressLabel": "Address",
     "addressValue": "Mykhailivka village, Pershotravneva St, 124",
     "phoneLabel": "Phone",
-    "phoneValue": "+380 (67) 123-45-67",
+    "phoneValue1": "+380-93-967-9386",
+    "phoneValue2": "+380-68-723-5695",
     "emailLabel": "Email",
     "emailValue": "info@remonttnvd.com",
     "hoursLabel": "Working Hours",
@@ -345,7 +347,8 @@
         "blog": "Blog",
         "manufacturers": "Manufacturers",
         "injectors": "Injectors",
-        "fuelPumps": "Works"
+        "fuelPumps": "Works",
+        "messages": "Messages"
       },
       "fuelPumpManager": {
         "title": "Fuel Pump Management",
@@ -554,6 +557,16 @@
           "urlPlaceholder": "https://example.com/image.jpg",
           "urlHelper": "Insert direct link to image"
         }
+      },
+      "search": {
+        "placeholder": "Search by name, part number, manufacturer or vehicle...",
+        "resultsFound": "Found results:",
+        "noResults": "Nothing found for your query",
+        "clear": "Clear search"
+      },
+      "pagination": {
+        "rowsPerPage": "Rows per page:",
+        "displayedRows": "{from}-{to} of {count}"
       }
     },
     "worksManager": {
@@ -617,6 +630,67 @@
         "replacement": "replacement",
         "cleaning": "cleaning"
       }
+    },
+    "messagesManager": {
+      "title": "Messages Management",
+      "stats": {
+        "new": "New",
+        "read": "Read",
+        "archived": "Archived"
+      },
+      "status": {
+        "new": "New",
+        "read": "Read",
+        "archived": "Archived"
+      },
+      "filter": {
+        "status": "Status",
+        "all": "All"
+      },
+      "search": {
+        "placeholder": "Search by name, email, phone or message...",
+        "clear": "Clear search",
+        "resultsFound": "Found:",
+        "noResults": "Nothing found for your query"
+      },
+      "table": {
+        "status": "Status",
+        "name": "Name",
+        "contact": "Contact",
+        "message": "Message",
+        "date": "Date",
+        "actions": "Actions"
+      },
+      "actions": {
+        "view": "View",
+        "delete": "Delete"
+      },
+      "pagination": {
+        "rowsPerPage": "Rows per page:",
+        "of": "of"
+      },
+      "dialog": {
+        "title": "Message Details",
+        "status": "Status",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone",
+        "date": "Date",
+        "message": "Message",
+        "close": "Close"
+      },
+      "confirmDelete": "Are you sure you want to delete this message?",
+      "emptyState": "No messages yet",
+      "errors": {
+        "load": "Error loading messages",
+        "delete": "Error deleting message",
+        "updateStatus": "Error updating status"
+      },
+      "success": {
+        "deleted": "Message deleted successfully",
+        "statusUpdated": "Message status updated successfully"
+      }
     }
+    
   }
 }
