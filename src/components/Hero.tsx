@@ -10,7 +10,7 @@ import {
 import { useTranslations } from 'next-intl';
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
-
+import Link from 'next/link';
 const Hero = () => {
   const t = useTranslations('common.hero');
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -20,30 +20,30 @@ const Hero = () => {
     {
       id: 1,
       src: '/images/workshop-1.jpg',
-      alt: 'Мастерская ТНВД',
-      title: 'Наша мастерская',
-      description: 'Современное оборудование для ремонта ТНВД'
+      alt: 'Майстерня Тнвд',
+      title: 'Наша майстерня',
+      description: 'Сучасне обладнання для ремонту Тнвд'
     },
     {
       id: 2,
       src: '/images/workshop-2.jpg',
-      alt: 'Диагностика ТНВД',
-      title: 'Диагностика',
-      description: 'Точная диагностика топливных насосов'
+      alt: 'Діагностика Тнвд',
+      title: 'Діагностика',
+      description: 'Точна діагностика топливного насоса'
     },
     {
       id: 3,
       src: '/images/workshop-3.jpg',
       alt: 'Ремонт ТНВД',
       title: 'Ремонт',
-      description: 'Качественный ремонт ТНВД'
+      description: 'Якісний ремонт Тнвд'
     },
     {
       id: 4,
       src: '/images/workshop-4.jpg',
-      alt: 'Тестирование ТНВД',
-      title: 'Тестирование',
-      description: 'Проверка работоспособности после ремонта'
+      alt: 'Тестування Тнвд',
+      title: 'Тестування',
+      description: 'Перевірка роботоспроможності після ремонту'
     }
   ];
 
@@ -66,7 +66,7 @@ const Hero = () => {
     <Box
       sx={{
         position: 'relative',
-        height: '100vh',
+        height: '80vh',
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
@@ -182,8 +182,8 @@ const Hero = () => {
           sx={{
             color: 'white',
             fontWeight: 'bold',
-            fontSize: { xs: '2.5rem', md: '4rem' },
-            mb: 3,
+            fontSize: { xs: '2.5rem', md: '3rem' },
+            mb: 2,
             textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
           }}
         >
@@ -194,13 +194,15 @@ const Hero = () => {
           sx={{
             color: '#E0F2FF',
             mb: 4,
-            fontSize: { xs: '1.2rem', md: '1.5rem' },
+            fontSize: { xs: '1.0rem', md: '1.5rem' },
             textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
           }}
         >
           {t('subtitle')}
         </Typography>
         <Button
+          component={Link}
+          href="/contact"
           variant="contained"
           size="large"
           sx={{
