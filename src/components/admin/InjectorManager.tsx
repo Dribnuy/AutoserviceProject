@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from "react";
 import {
   Box,
   Button,
@@ -27,25 +27,22 @@ import {
   TablePagination,
   InputAdornment,
   Chip,
-} from '@mui/material';
-import { Add, Edit, Delete, Close, Search, Clear } from '@mui/icons-material';
-import { 
-  collection, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc, 
-  doc, 
+} from "@mui/material";
+import { Add, Edit, Delete, Close, Search, Clear } from "@mui/icons-material";
+import {
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
   getDocs,
-  serverTimestamp 
-} from 'firebase/firestore';
-import { 
-  ref, 
-  uploadBytes, 
-  getDownloadURL 
-} from 'firebase/storage';
-import { db, storage } from '../../../config/firebase';
-import PrimaryButton from '@/components/shared/PrimaryButton';
-import { useTranslations, useLocale } from 'next-intl';
+  serverTimestamp,
+} from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, storage } from "../../../config/firebase";
+import PrimaryButton from "@/components/shared/PrimaryButton";
+import { useTranslations, useLocale } from "next-intl";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 interface Manufacturer {
   id: string;
@@ -72,7 +69,7 @@ interface Injector {
 }
 
 export default function InjectorManager() {
-  const t = useTranslations('common.admin.injectorManager');
+  const t = useTranslations("common.admin.injectorManager");
   const locale = useLocale();
 
   const [injectors, setInjectors] = useState<Injector[]>([]);
@@ -81,27 +78,28 @@ export default function InjectorManager() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingInjector, setEditingInjector] = useState<Injector | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [imagePreview, setImagePreview] = useState('');
-  
-  const [searchQuery, setSearchQuery] = useState('');
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [imagePreview, setImagePreview] = useState("");
+
+  const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); //
   const [formData, setFormData] = useState({
-    name: '',
-    nameEn: '',
-    partNumber: '',
-    manufacturerId: '',
-    vehicles: '',
-    description: '',
-    descriptionEn: '',
-    pressure: '',
-    flowRate: '',
-    voltage: '12V',
+    name: "",
+    nameEn: "",
+    partNumber: "",
+    manufacturerId: "",
+    vehicles: "",
+    description: "",
+    descriptionEn: "",
+    pressure: "",
+    flowRate: "",
+    voltage: "12V",
     image: null as File | null,
-    imageUrl: '',
+    imageUrl: "",
   });
 
   useEffect(() => {
@@ -111,66 +109,84 @@ export default function InjectorManager() {
   const loadData = async () => {
     try {
       setLoading(true);
-      
-      const manufacturersSnapshot = await getDocs(collection(db, 'manufacturers'));
+
+      const manufacturersSnapshot = await getDocs(
+        collection(db, "manufacturers")
+      );
       const manufacturersData: Manufacturer[] = [];
       manufacturersSnapshot.forEach((doc) => {
         manufacturersData.push({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         } as Manufacturer);
       });
       setManufacturers(manufacturersData);
 
-      const injectorsSnapshot = await getDocs(collection(db, 'injectors'));
+      const injectorsSnapshot = await getDocs(collection(db, "injectors"));
       const injectorsData: Injector[] = [];
       injectorsSnapshot.forEach((doc) => {
         const data = doc.data();
-        const manufacturer = manufacturersData.find(m => m.id === data.manufacturerId);
+        const manufacturer = manufacturersData.find(
+          (m) => m.id === data.manufacturerId
+        );
         injectorsData.push({
           id: doc.id,
           ...data,
-          manufacturerName: manufacturer?.name || 'Unknown'
+          manufacturerName: manufacturer?.name || "Unknown",
         } as Injector);
       });
       setInjectors(injectorsData);
     } catch (err: any) {
-      setError(t('errors.load') + ': ' + err.message);
+      setError(t("errors.load") + ": " + err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const getLocalizedText = (item: Injector | Manufacturer, field: 'name' | 'description') => {
-    if (field === 'name') {
-      return locale === 'uk' ? item.name : item.nameEn;
+  const getLocalizedText = (
+    item: Injector | Manufacturer,
+    field: "name" | "description"
+  ) => {
+    if (field === "name") {
+      return locale === "uk" ? item.name : item.nameEn;
     }
-    if ('description' in item && 'descriptionEn' in item) {
-       return locale === 'uk' ? item.description : item.descriptionEn;
+    if ("description" in item && "descriptionEn" in item) {
+      return locale === "uk" ? item.description : item.descriptionEn;
     }
-    return '';
+    return "";
   };
 
   const filteredInjectors = useMemo(() => {
     if (!searchQuery.trim()) return injectors;
 
     const query = searchQuery.toLowerCase().trim();
-    
+
     return injectors.filter((injector) => {
-      const nameMatch = injector.name.toLowerCase().includes(query) || 
-                       injector.nameEn.toLowerCase().includes(query);
+      const nameMatch =
+        injector.name.toLowerCase().includes(query) ||
+        injector.nameEn.toLowerCase().includes(query);
       const partNumberMatch = injector.partNumber.toLowerCase().includes(query);
-      const manufacturerMatch = injector.manufacturerName?.toLowerCase().includes(query);
-      const vehiclesMatch = injector.vehicles.some(v => v.toLowerCase().includes(query));
-      const specsMatch = injector.specifications?.pressure?.toLowerCase().includes(query) ||
-                        injector.specifications?.flowRate?.toLowerCase().includes(query) ||
-                        injector.specifications?.voltage?.toLowerCase().includes(query);
-      
-      return nameMatch || partNumberMatch || manufacturerMatch || vehiclesMatch || specsMatch;
+      const manufacturerMatch = injector.manufacturerName
+        ?.toLowerCase()
+        .includes(query);
+      const vehiclesMatch = injector.vehicles.some((v) =>
+        v.toLowerCase().includes(query)
+      );
+      const specsMatch =
+        injector.specifications?.pressure?.toLowerCase().includes(query) ||
+        injector.specifications?.flowRate?.toLowerCase().includes(query) ||
+        injector.specifications?.voltage?.toLowerCase().includes(query);
+
+      return (
+        nameMatch ||
+        partNumberMatch ||
+        manufacturerMatch ||
+        vehiclesMatch ||
+        specsMatch
+      );
     });
   }, [injectors, searchQuery]);
 
-  
   const paginatedInjectors = useMemo(() => {
     const startIndex = page * rowsPerPage;
     return filteredInjectors.slice(startIndex, startIndex + rowsPerPage);
@@ -180,7 +196,9 @@ export default function InjectorManager() {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
@@ -191,7 +209,7 @@ export default function InjectorManager() {
   };
 
   const clearSearch = () => {
-    setSearchQuery('');
+    setSearchQuery("");
     setPage(0);
   };
 
@@ -199,12 +217,12 @@ export default function InjectorManager() {
     const file = e.target.files?.[0];
     if (file) {
       if (file.size > 5 * 1024 * 1024) {
-        setError(t('errors.fileSize'));
+        setError(t("errors.fileSize"));
         return;
       }
 
-      if (!file.type.startsWith('image/')) {
-        setError(t('errors.fileType'));
+      if (!file.type.startsWith("image/")) {
+        setError(t("errors.fileType"));
         return;
       }
 
@@ -222,16 +240,16 @@ export default function InjectorManager() {
     if (url) {
       setImagePreview(url);
     } else {
-      setImagePreview('');
+      setImagePreview("");
     }
   };
 
   const uploadImage = async (file: File): Promise<string> => {
     const timestamp = Date.now();
-    const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+    const sanitizedFileName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
     const fileName = `injectors/${timestamp}_${sanitizedFileName}`;
     const storageRef = ref(storage, fileName);
-    
+
     await uploadBytes(storageRef, file);
     const downloadURL = await getDownloadURL(storageRef);
     return downloadURL;
@@ -240,16 +258,16 @@ export default function InjectorManager() {
   const handleSubmit = async () => {
     try {
       setUploading(true);
-      setError('');
+      setError("");
 
       if (!formData.name || !formData.partNumber || !formData.manufacturerId) {
-        setError(t('errors.requiredFields'));
+        setError(t("errors.requiredFields"));
         setUploading(false);
         return;
       }
 
-      let imageUrl = formData.imageUrl || '';
-      
+      let imageUrl = formData.imageUrl || "";
+
       if (formData.image) {
         imageUrl = await uploadImage(formData.image);
       }
@@ -259,7 +277,10 @@ export default function InjectorManager() {
         nameEn: formData.nameEn,
         partNumber: formData.partNumber,
         manufacturerId: formData.manufacturerId,
-        vehicles: formData.vehicles.split(',').map(v => v.trim()).filter(v => v),
+        vehicles: formData.vehicles
+          .split(",")
+          .map((v) => v.trim())
+          .filter((v) => v),
         description: formData.description,
         descriptionEn: formData.descriptionEn,
         specifications: {
@@ -272,22 +293,22 @@ export default function InjectorManager() {
       };
 
       if (editingInjector) {
-        await updateDoc(doc(db, 'injectors', editingInjector.id), injectorData);
-        setSuccess(t('success.updated'));
+        await updateDoc(doc(db, "injectors", editingInjector.id), injectorData);
+        setSuccess(t("success.updated"));
       } else {
-        await addDoc(collection(db, 'injectors'), {
+        await addDoc(collection(db, "injectors"), {
           ...injectorData,
           createdAt: serverTimestamp(),
         });
-        setSuccess(t('success.created'));
+        setSuccess(t("success.created"));
       }
 
       setDialogOpen(false);
       resetForm();
       loadData();
-      setTimeout(() => setSuccess(''), 3000);
+      setTimeout(() => setSuccess(""), 3000);
     } catch (err: any) {
-      setError(t('errors.save') + ': ' + err.message);
+      setError(t("errors.save") + ": " + err.message);
     } finally {
       setUploading(false);
     }
@@ -300,12 +321,12 @@ export default function InjectorManager() {
       nameEn: injector.nameEn,
       partNumber: injector.partNumber,
       manufacturerId: injector.manufacturerId,
-      vehicles: injector.vehicles.join(', '),
-      description: injector.description || '',
-      descriptionEn: injector.descriptionEn || '',
-      pressure: injector.specifications?.pressure || '',
-      flowRate: injector.specifications?.flowRate || '',
-      voltage: injector.specifications?.voltage || '12V',
+      vehicles: injector.vehicles.join(", "),
+      description: injector.description || "",
+      descriptionEn: injector.descriptionEn || "",
+      pressure: injector.specifications?.pressure || "",
+      flowRate: injector.specifications?.flowRate || "",
+      voltage: injector.specifications?.voltage || "12V",
       imageUrl: injector.image,
       image: null,
     });
@@ -314,40 +335,40 @@ export default function InjectorManager() {
   };
 
   const handleDelete = async (id: string) => {
-    if (window.confirm(t('confirmDelete'))) {
+    if (window.confirm(t("confirmDelete"))) {
       try {
-        await deleteDoc(doc(db, 'injectors', id));
-        setSuccess(t('success.deleted'));
+        await deleteDoc(doc(db, "injectors", id));
+        setSuccess(t("success.deleted"));
         loadData();
-        setTimeout(() => setSuccess(''), 3000);
+        setTimeout(() => setSuccess(""), 3000);
       } catch (err: any) {
-        setError(t('errors.delete') + ': ' + err.message);
+        setError(t("errors.delete") + ": " + err.message);
       }
     }
   };
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      nameEn: '',
-      partNumber: '',
-      manufacturerId: '',
-      vehicles: '',
-      description: '',
-      descriptionEn: '',
-      pressure: '',
-      flowRate: '',
-      voltage: '12V',
+      name: "",
+      nameEn: "",
+      partNumber: "",
+      manufacturerId: "",
+      vehicles: "",
+      description: "",
+      descriptionEn: "",
+      pressure: "",
+      flowRate: "",
+      voltage: "12V",
       image: null,
-      imageUrl: '',
+      imageUrl: "",
     });
-    setImagePreview('');
+    setImagePreview("");
     setEditingInjector(null);
   };
 
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
         <CircularProgress />
       </Box>
     );
@@ -355,56 +376,64 @@ export default function InjectorManager() {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3, flexWrap: 'wrap', gap: 2 }}>
-        <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#004975' }}>
-          {t('title')}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: { xs: "flex-start", sm: "center" },
+          mb: 3,
+          gap: 2,
+        }}
+      >
+        <Typography variant="h5" sx={{ fontWeight: "bold", color: "#004975" }}>
+          {t("title")}
         </Typography>
         <PrimaryButton
           startIcon={<Add />}
           onClick={() => setDialogOpen(true)}
           disabled={manufacturers.length === 0}
         >
-          {t('addNew')}
+          {t("addNew")}
         </PrimaryButton>
       </Box>
 
       {manufacturers.length === 0 && (
         <Alert severity="warning" sx={{ mb: 2 }}>
-          {t('noManufacturers')}
+          {t("noManufacturers")}
         </Alert>
       )}
 
       {error && (
-        <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError('')}>
+        <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError("")}>
           {error}
         </Alert>
       )}
 
       {success && (
-        <Alert severity="success" sx={{ mb: 2 }} onClose={() => setSuccess('')}>
+        <Alert severity="success" sx={{ mb: 2 }} onClose={() => setSuccess("")}>
           {success}
         </Alert>
       )}
 
-      
       <Paper sx={{ p: 2, mb: 2, boxShadow: 1 }}>
         <TextField
           fullWidth
-          placeholder={t('search.placeholder')}
+          placeholder={t("search.placeholder")}
           value={searchQuery}
           onChange={handleSearchChange}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <Search sx={{ color: '#004975' }} />
+                <Search sx={{ color: "#004975" }} />
               </InputAdornment>
             ),
             endAdornment: searchQuery && (
               <InputAdornment position="end">
-                <IconButton 
-                  onClick={clearSearch} 
+                <IconButton
+                  onClick={clearSearch}
                   size="small"
-                  title={t('search.clear')}
+                  title={t("search.clear")}
                 >
                   <Clear />
                 </IconButton>
@@ -412,25 +441,25 @@ export default function InjectorManager() {
             ),
           }}
           sx={{
-            '& .MuiOutlinedInput-root': {
-              '&:hover fieldset': {
-                borderColor: '#004975',
+            "& .MuiOutlinedInput-root": {
+              "&:hover fieldset": {
+                borderColor: "#004975",
               },
-              '&.Mui-focused fieldset': {
-                borderColor: '#004975',
+              "&.Mui-focused fieldset": {
+                borderColor: "#004975",
               },
             },
           }}
         />
         {searchQuery && (
-          <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
+          <Box sx={{ mt: 1, display: "flex", alignItems: "center", gap: 1 }}>
             <Typography variant="caption" color="text.secondary">
-              {t('search.resultsFound')} {filteredInjectors.length}
+              {t("search.resultsFound")} {filteredInjectors.length}
             </Typography>
             {filteredInjectors.length > 0 && (
-              <Chip 
-                label={searchQuery} 
-                size="small" 
+              <Chip
+                label={searchQuery}
+                size="small"
                 onDelete={clearSearch}
                 color="primary"
                 variant="outlined"
@@ -440,70 +469,97 @@ export default function InjectorManager() {
         )}
       </Paper>
 
-      <TableContainer component={Paper} sx={{ boxShadow: 1, mb: 2 }}>
+      <TableContainer
+        component={Paper}
+        sx={{
+          boxShadow: 1,
+          mb: 2,
+          display: { xs: "none", md: "block" },
+        }}
+      >
         <Table>
           <TableHead>
-            <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
-              <TableCell sx={{ fontWeight: 'bold' }}>{t('table.manufacturer')}</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>{t('table.name')}</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>{t('table.partNumber')}</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>{t('table.pressure')}</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>{t('table.vehicles')}</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>{t('table.actions')}</TableCell>
+            <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+              <TableCell sx={{ fontWeight: "bold" }}>
+                {t("table.manufacturer")}
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>
+                {t("table.name")}
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>
+                {t("table.partNumber")}
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>
+                {t("table.pressure")}
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>
+                {t("table.vehicles")}
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold", textAlign: "center" }}>
+                {t("table.actions")}
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {paginatedInjectors.map((injector) => (
-              <TableRow 
+              <TableRow
                 key={injector.id}
-                sx={{ 
-                  '&:hover': { backgroundColor: '#f9f9f9' },
-                  '&:last-child td': { border: 0 }
+                sx={{
+                  "&:hover": { backgroundColor: "#f9f9f9" },
+                  "&:last-child td": { border: 0 },
                 }}
               >
                 <TableCell>{injector.manufacturerName}</TableCell>
                 <TableCell>
-                    {getLocalizedText(injector, 'name')}
-                    <Typography variant="caption" display="block" color="text.secondary">
-                      {locale === 'uk' ? injector.nameEn : injector.name}
-                    </Typography>
+                  {getLocalizedText(injector, "name")}
+                  <Typography
+                    variant="caption"
+                    display="block"
+                    color="text.secondary"
+                  >
+                    {locale === "uk" ? injector.nameEn : injector.name}
+                  </Typography>
                 </TableCell>
                 <TableCell>
-                  <Box 
-                    sx={{ 
-                      display: 'inline-block',
-                      backgroundColor: '#e3f2fd',
-                      color: '#1976d2',
+                  <Box
+                    sx={{
+                      display: "inline-block",
+                      backgroundColor: "#e3f2fd",
+                      color: "#1976d2",
                       px: 2,
                       py: 0.5,
                       borderRadius: 2,
-                      fontSize: '0.875rem'
+                      fontSize: "0.875rem",
                     }}
                   >
                     {injector.partNumber}
                   </Box>
                 </TableCell>
                 <TableCell>
-                  {injector.specifications?.pressure || '-'}
+                  {injector.specifications?.pressure || "-"}
                 </TableCell>
-                <TableCell sx={{ color: 'text.secondary', maxWidth: 200 }}>
-                  <Typography noWrap title={injector.vehicles.join(', ')}>
-                    {injector.vehicles.length > 0 ? injector.vehicles.join(', ') : '-'}
+                <TableCell sx={{ color: "text.secondary", maxWidth: 200 }}>
+                  <Typography noWrap title={injector.vehicles.join(", ")}>
+                    {injector.vehicles.length > 0
+                      ? injector.vehicles.join(", ")
+                      : "-"}
                   </Typography>
                 </TableCell>
                 <TableCell>
-                  <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
+                  <Box
+                    sx={{ display: "flex", gap: 1, justifyContent: "center" }}
+                  >
                     <IconButton
                       size="small"
                       onClick={() => handleEdit(injector)}
-                      sx={{ color: '#004975' }}
+                      sx={{ color: "#004975" }}
                     >
                       <Edit fontSize="small" />
                     </IconButton>
                     <IconButton
                       size="small"
                       onClick={() => handleDelete(injector.id)}
-                      sx={{ color: '#d32f2f' }}
+                      sx={{ color: "#d32f2f" }}
                     >
                       <Delete fontSize="small" />
                     </IconButton>
@@ -515,7 +571,105 @@ export default function InjectorManager() {
         </Table>
       </TableContainer>
 
-      
+      <Box
+        sx={{
+          display: { xs: "block", md: "none" }, //displays only at mobile
+          mb: 2,
+        }}
+      >
+        {paginatedInjectors.map((injector) => (
+          <Paper key={injector.id} sx={{ p: 2, mb: 2, boxShadow: 1 }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                mb: 1.5,
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{
+                  color: "#004975",
+                  fontSize: "1.1rem",
+                  fontWeight: "bold",
+                  pr: 1,
+                }}
+              >
+                {getLocalizedText(injector, "name")}
+              </Typography>
+
+              <Box sx={{ display: "flex" }}>
+                <IconButton
+                  size="small"
+                  onClick={() => handleEdit(injector)}
+                  sx={{ color: "#004975" }}
+                >
+                  <Edit fontSize="small" />
+                </IconButton>
+                <IconButton
+                  size="small"
+                  onClick={() => handleDelete(injector.id)}
+                  sx={{ color: "#d32f2f" }}
+                >
+                  <Delete fontSize="small" />
+                </IconButton>
+              </Box>
+            </Box>
+
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
+              <Typography variant="body2" color="text.secondary">
+                {t("table.manufacturer")}:
+                <Typography
+                  component="span"
+                  sx={{ fontWeight: "medium", color: "text.primary", ml: 0.5 }}
+                >
+                  {injector.manufacturerName}
+                </Typography>
+              </Typography>
+
+              <Typography variant="body2" color="text.secondary">
+                {t("table.partNumber")}:
+                <Chip
+                  label={injector.partNumber}
+                  size="small"
+                  sx={{
+                    ml: 1,
+                    backgroundColor: "#e3f2fd",
+                    color: "#1976d2",
+                    height: "auto",
+                    py: "1px",
+                  }}
+                />
+              </Typography>
+
+              <Typography variant="body2" color="text.secondary">
+                {t("table.pressure")}:
+                <Typography
+                  component="span"
+                  sx={{ fontWeight: "medium", color: "text.primary", ml: 0.5 }}
+                >
+                  {injector.specifications?.pressure || "-"}
+                </Typography>
+              </Typography>
+
+              <Typography variant="body2" color="text.secondary" noWrap>
+                {t("table.vehicles")}:
+                <Typography
+                  component="span"
+                  sx={{ fontWeight: "medium", color: "text.primary", ml: 0.5 }}
+                  noWrap
+                >
+                  {injector.vehicles.length > 0
+                    ? injector.vehicles.join(", ")
+                    : "-"}
+                </Typography>
+              </Typography>
+            </Box>
+          </Paper>
+        ))}
+      </Box>
+
       {filteredInjectors.length > 0 && (
         <TablePagination
           component={Paper}
@@ -526,45 +680,69 @@ export default function InjectorManager() {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage={t('pagination.rowsPerPage')}
-          labelDisplayedRows={({ from, to, count }) => 
-            t('pagination.displayedRows', { from, to, count })
+          labelRowsPerPage={t("pagination.rowsPerPage")}
+          labelDisplayedRows={({ from, to, count }) =>
+            t("pagination.displayedRows", { from, to, count })
           }
         />
       )}
 
       {filteredInjectors.length === 0 && !loading && (
-        <Box sx={{ textAlign: 'center', py: 4 }}>
+        <Box sx={{ textAlign: "center", py: 4 }}>
           <Typography color="text.secondary">
-            {searchQuery 
-              ? t('search.noResults')
-              : (manufacturers.length > 0 ? t('emptyState') : '')
-            }
+            {searchQuery
+              ? t("search.noResults")
+              : manufacturers.length > 0
+              ? t("emptyState")
+              : ""}
           </Typography>
         </Box>
       )}
 
-      <Dialog open={dialogOpen} onClose={() => { setDialogOpen(false); resetForm(); }} maxWidth="md" fullWidth>
-        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Dialog
+        open={dialogOpen}
+        onClose={() => {
+          setDialogOpen(false);
+          resetForm();
+        }}
+        maxWidth="md"
+        fullWidth
+        fullScreen={isMobile}
+      >
+        <DialogTitle
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Typography variant="h6">
-            {editingInjector ? t('dialog.titleEdit') : t('dialog.titleNew')}
+            {editingInjector ? t("dialog.titleEdit") : t("dialog.titleNew")}
           </Typography>
-          <IconButton onClick={() => { setDialogOpen(false); resetForm(); }} size="small">
+          <IconButton
+            onClick={() => {
+              setDialogOpen(false);
+              resetForm();
+            }}
+            size="small"
+          >
             <Close />
           </IconButton>
         </DialogTitle>
         <DialogContent>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 2 }}>
             <FormControl fullWidth required>
-              <InputLabel>{t('form.manufacturer.label')}</InputLabel>
+              <InputLabel>{t("form.manufacturer.label")}</InputLabel>
               <Select
                 value={formData.manufacturerId}
-                label={t('form.manufacturer.label')}
-                onChange={(e) => setFormData({ ...formData, manufacturerId: e.target.value })}
+                label={t("form.manufacturer.label")}
+                onChange={(e) =>
+                  setFormData({ ...formData, manufacturerId: e.target.value })
+                }
               >
                 {manufacturers.map((m) => (
                   <MenuItem key={m.id} value={m.id}>
-                    {getLocalizedText(m, 'name')}
+                    {getLocalizedText(m, "name")}
                   </MenuItem>
                 ))}
               </Select>
@@ -572,121 +750,145 @@ export default function InjectorManager() {
 
             <TextField
               fullWidth
-              label={t('form.nameUk.label')}
+              label={t("form.nameUk.label")}
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder={t('form.nameUk.placeholder')}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
+              placeholder={t("form.nameUk.placeholder")}
             />
 
             <TextField
               fullWidth
-              label={t('form.nameEn.label')}
+              label={t("form.nameEn.label")}
               value={formData.nameEn}
-              onChange={(e) => setFormData({ ...formData, nameEn: e.target.value })}
-              placeholder={t('form.nameEn.placeholder')}
+              onChange={(e) =>
+                setFormData({ ...formData, nameEn: e.target.value })
+              }
+              placeholder={t("form.nameEn.placeholder")}
             />
-            
+
             <TextField
               fullWidth
-              label={t('form.partNumber.label')}
+              label={t("form.partNumber.label")}
               value={formData.partNumber}
-              onChange={(e) => setFormData({ ...formData, partNumber: e.target.value })}
-              placeholder={t('form.partNumber.placeholder')}
+              onChange={(e) =>
+                setFormData({ ...formData, partNumber: e.target.value })
+              }
+              placeholder={t("form.partNumber.placeholder")}
             />
 
             <TextField
               fullWidth
-              label={t('form.vehicles.label')}
+              label={t("form.vehicles.label")}
               value={formData.vehicles}
-              onChange={(e) => setFormData({ ...formData, vehicles: e.target.value })}
-              placeholder={t('form.vehicles.placeholder')}
+              onChange={(e) =>
+                setFormData({ ...formData, vehicles: e.target.value })
+              }
+              placeholder={t("form.vehicles.placeholder")}
               multiline
               rows={2}
             />
 
             <TextField
               fullWidth
-              label={t('form.descriptionUk.label')}
+              label={t("form.descriptionUk.label")}
               value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
               multiline
               rows={2}
             />
 
             <TextField
               fullWidth
-              label={t('form.descriptionEn.label')}
+              label={t("form.descriptionEn.label")}
               value={formData.descriptionEn}
-              onChange={(e) => setFormData({ ...formData, descriptionEn: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, descriptionEn: e.target.value })
+              }
               multiline
               rows={2}
             />
 
-            <Typography variant="subtitle2" sx={{ color: '#004975' }}>
-              {t('form.specifications.title')}
+            <Typography variant="subtitle2" sx={{ color: "#004975" }}>
+              {t("form.specifications.title")}
             </Typography>
 
-            <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 2 }}>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: {xs: '1fr', sm:"repeat(3, 1fr)"},
+                gap: 2,
+              }}
+            >
               <TextField
                 fullWidth
-                label={t('form.specifications.pressure')}
+                label={t("form.specifications.pressure")}
                 value={formData.pressure}
-                onChange={(e) => setFormData({ ...formData, pressure: e.target.value })}
-                placeholder={t('form.specifications.pressurePlaceholder')}
+                onChange={(e) =>
+                  setFormData({ ...formData, pressure: e.target.value })
+                }
+                placeholder={t("form.specifications.pressurePlaceholder")}
               />
-              
+
               <TextField
                 fullWidth
-                label={t('form.specifications.flowRate')}
+                label={t("form.specifications.flowRate")}
                 value={formData.flowRate}
-                onChange={(e) => setFormData({ ...formData, flowRate: e.target.value })}
-                placeholder={t('form.specifications.flowRatePlaceholder')}
+                onChange={(e) =>
+                  setFormData({ ...formData, flowRate: e.target.value })
+                }
+                placeholder={t("form.specifications.flowRatePlaceholder")}
               />
-              
+
               <TextField
                 fullWidth
-                label={t('form.specifications.voltage')}
+                label={t("form.specifications.voltage")}
                 value={formData.voltage}
-                onChange={(e) => setFormData({ ...formData, voltage: e.target.value })}
-                placeholder={t('form.specifications.voltagePlaceholder')}
+                onChange={(e) =>
+                  setFormData({ ...formData, voltage: e.target.value })
+                }
+                placeholder={t("form.specifications.voltagePlaceholder")}
               />
             </Box>
 
             <Box>
-              <Typography variant="subtitle2" sx={{ mb: 1, color: '#004975' }}>
-                {t('form.image.title')}
+              <Typography variant="subtitle2" sx={{ mb: 1, color: "#004975" }}>
+                {t("form.image.title")}
               </Typography>
-              
+
               <TextField
                 fullWidth
-                label={t('form.image.urlLabel')}
+                label={t("form.image.urlLabel")}
                 value={formData.imageUrl}
                 onChange={(e) => handleImageUrlChange(e.target.value)}
-                placeholder={t('form.image.urlPlaceholder')}
-                helperText={t('form.image.urlHelper')}
+                placeholder={t("form.image.urlPlaceholder")}
+                helperText={t("form.image.urlHelper")}
               />
-              
+
               {imagePreview && (
-                <Box sx={{ mt: 2, textAlign: 'center', position: 'relative' }}>
+                <Box sx={{ mt: 2, textAlign: "center", position: "relative" }}>
                   <img
                     src={imagePreview}
                     alt="Preview"
-                    style={{ 
-                      maxWidth: '100%', 
-                      maxHeight: 200, 
-                      borderRadius: 8 
+                    style={{
+                      maxWidth: "100%",
+                      maxHeight: 200,
+                      borderRadius: 8,
                     }}
                   />
                   <IconButton
                     onClick={() => {
-                      setImagePreview('');
-                      setFormData({ ...formData, image: null, imageUrl: '' });
+                      setImagePreview("");
+                      setFormData({ ...formData, image: null, imageUrl: "" });
                     }}
                     sx={{
-                      position: 'absolute',
+                      position: "absolute",
                       top: 8,
                       right: 8,
-                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                      backgroundColor: "rgba(255, 255, 255, 0.9)",
                     }}
                     size="small"
                   >
@@ -698,14 +900,30 @@ export default function InjectorManager() {
           </Box>
         </DialogContent>
         <DialogActions sx={{ p: 3 }}>
-          <Button onClick={() => { setDialogOpen(false); resetForm(); }} disabled={uploading}>
-            {t('dialog.cancel')}
+          <Button
+            onClick={() => {
+              setDialogOpen(false);
+              resetForm();
+            }}
+            disabled={uploading}
+          >
+            {t("dialog.cancel")}
           </Button>
           <PrimaryButton
             onClick={handleSubmit}
             disabled={uploading || !formData.name || !formData.partNumber}
+            sx={{
+             
+              alignSelf: {xs: '100%'},
+            }}
           >
-            {uploading ? <CircularProgress size={24} /> : (editingInjector ? t('dialog.update') : t('dialog.create'))}
+            {uploading ? (
+              <CircularProgress size={24} />
+            ) : editingInjector ? (
+              t("dialog.update")
+            ) : (
+              t("dialog.create")
+            )}
           </PrimaryButton>
         </DialogActions>
       </Dialog>

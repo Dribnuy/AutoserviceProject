@@ -9,9 +9,53 @@
   },
   "language": "Language",
   "hero": {
-    "title": "Professional Auto Service",
+    "title": "Professional servicing of injectors and high pressure fuel pumps",
     "subtitle": "Quality repair and maintenance for your vehicle",
     "cta": "Order Service"
+  },
+  "whyChooseUs": {
+    "title": "Why Choose Us",
+    "subtitle": "Professional approach to every client",
+    "quality": {
+      "title": "Quality Guarantee",
+      "stat": "12 months",
+      "description": "Up to 12 months warranty. We only work with original parts."
+    },
+    "speed": {
+      "title": "Fast Service",
+      "stat": "1–3 days",
+      "description": "Diagnostics and repair in 1–3 business days. We value your time."
+    },
+    "experience": {
+      "title": "10+ Years Experience",
+      "stat": "10+",
+      "description": "Our specialists have over ten years of experience in repairing fuel injection pumps and injectors."
+    },
+    "price": {
+      "title": "Fair Prices",
+      "stat": "Free",
+      "description": "Transparent pricing with no hidden fees. Free diagnostics."
+    }
+  },
+  "howItWorks": {
+    "title": "How We Work",
+    "subtitle": "Simple and transparent repair process",
+    "diagnostics": {
+      "title": "Diagnostics",
+      "description": "Free comprehensive diagnostics on modern equipment."
+    },
+    "assessment": {
+      "title": "Assessment",
+      "description": "Determining scope of work and agreeing on cost with the client."
+    },
+    "repair": {
+      "title": "Repair",
+      "description": "Professional repair using original parts. We do not using non-original parts."
+    },
+    "testing": {
+      "title": "Testing",
+      "description": "Comprehensive testing and performance verification with the client."
+    }
   },
   "services": {
     "title": "Our Services",
@@ -19,10 +63,9 @@
     "repair": "Repair",
     "maintenance": "Maintenance",
     "tire": "Tire Service",
-    "diagnostics_desc": "Comprehensive diagnostics using modern equipment",
-    "repair_desc": "High-quality repair with warranty on work",
-    "maintenance_desc": "Preventive maintenance, cleaning and adjustments",
-    "tire_desc": "Full tire and fuel system service",
+    "diagnostics_desc": "Comprehensive diagnostics with modern equipment and test benches.",
+    "repair_desc": "We restore injectors quickly, efficiently and with a guarantee.",
+    "maintenance_desc": "We clean, service and adjust injectors for stable engine operation.",
     "page": {
       "title": "Our Services",
       "subtitle": "Professional repair and diagnostics of fuel systems",
@@ -71,58 +114,47 @@
       }
     }
   },
-  "about": {
-    "title": "About Us",
-    "description": "We have been working in the auto service market for over 10 years. Our team of qualified craftsmen provides quality repair and maintenance of vehicles.",
-    "ourStory": "Our Story",
-    "storyText": "We have been working in the auto service market for over 10 years. Our team of qualified craftsmen provides quality repair and maintenance of vehicles of various brands and models.",
-    "ourAdvantages": "Our Advantages",
-    "advantages": {
-      "modernEquipment": "Modern equipment",
-      "experiencedMasters": "Experienced mechanics",
-      "warranty": "Work guarantee",
-      "fastService": "Fast service"
-    }
+ "about": {
+  "title": "About Us",
+  "subtitle": "Professional fuel system repair since 2014",
+  "intro": "We are a team of professionals with over 10 years of experience in diagnostics, restoration and repair of fuel systems. Our auto service specializes in the repair of injectors and high-pressure fuel pumps (HPFP), ensuring their stable operation in accordance with factory specifications. We understand how important it is for the engine to run smoothly, economically and powerfully — that's why we approach every detail with maximum precision.",
+  "reputation": "Over the years, we have gained a reputation as a reliable partner among car owners, service stations and transport companies throughout Ukraine. Our clients value us for honesty, responsibility and consistently high quality of service. We have deep expertise in working with Delphi, Bosch, Denso, Continental fuel systems — from classic diesel engines to the latest Common Rail systems that require precision and experience at every stage of repair.",
+  "stats": {
+    "clients": "Clients Served",
+    "injectors": "Injectors Repaired",
+    "pumps": "HPFPs Repaired"
   },
+  "expertiseTitle": "Our Expertise",
+  "expertiseText": "Each of our specialists undergoes regular training, follows technological updates and has practical knowledge of the latest innovations in the field of diesel fuel equipment. Our experience includes hundreds of successfully restored injectors and pumps, thousands of satisfied customers and dozens of partner service stations that trust us with the most complex cases.",
+  "equipmentText": "We use modern diagnostic equipment, certified test benches and original spare parts, which allows us to achieve maximum measurement accuracy and durability of repaired parts. Each unit that leaves our workshop undergoes thorough inspection before being handed over to the client.",
+  "ourMission": "Our Mission",
+  "missionText": "We don't just repair — we restore your car's power, fuel efficiency and reliability so you can confidently cover any distance. Our goal is to make quality repairs accessible, transparent and durable, and most importantly — to give you peace of mind about the technical condition of your vehicle. We believe that a well-functioning engine is not only comfort in motion, but also your safety on the road.",
+  "ourAdvantages": "Our Advantages",
+  "advantages": {
+    "modernEquipment": "Modern equipment",
+    "experiencedMasters": "Experienced mechanics",
+    "warranty": "Work guarantee",
+    "fastService": "Fast service",
+    "originalParts": "Original spare parts",
+    "diagnostic": "Precise diagnostics"
+  }
+},
   "works": {
     "title": "Our Works",
-    "subtitle": "Watch our works on TikTok and learn about the fuel pump repair process",
+    "subtitle": "Watch our works below and learn about the injector repair process.",
     "goToTiktok": "Go to TikTok",
     "views": "Views",
     "likes": "Likes",
     "comments": "Comments",
     "watch": "Watch",
-    "subscribe": {
-      "title": "Subscribe to our TikTok!",
-      "subtitle": "Daily new videos about fuel pump repair and useful tips",
-      "button": "Subscribe on TikTok"
-    },
-    "videos": {
-      "1": {
-        "title": "Fuel Pump Diagnostics",
-        "description": "High-pressure fuel pump diagnostics process"
-      },
-      "2": {
-        "title": "Plunger Pairs Repair",
-        "description": "Replacing plunger pairs in fuel pump"
-      },
-      "3": {
-        "title": "Post-Repair Testing",
-        "description": "Checking fuel pump operation after repair"
-      },
-      "4": {
-        "title": "Fuel Pump Calibration",
-        "description": "Adjusting pressure in the fuel pump"
-      },
-      "5": {
-        "title": "Fuel System Maintenance",
-        "description": "Cleaning and servicing the fuel system"
-      },
-      "6": {
-        "title": "Fuel Pump Dismantling",
-        "description": "Proper fuel pump removal"
-      }
-    }
+    "testimonial": "Customer Testimonial",
+    "vehicle": "Vehicle",
+    "date": "Date",
+    "customer": "Customer Initials",
+    "after": "After",
+    "before": "Before",
+    "noPhoto": "No Photo",
+    "noWorks": "We dont have works yet. Try visit this page later."
   },
   "footer": {
     "rights": "All rights reserved",
@@ -156,6 +188,8 @@
   "blog": {
     "title": "Blog",
     "subtitle": "Useful articles about repair and maintenance of fuel injection pumps",
+    "noArticles": "We dont have articles yet. Check later please.",
+    "errorLoading": "Failed to load articles. Please try again later.",
     "categories": {
       "all": "All",
       "diagnostics": "Diagnostics",
@@ -345,6 +379,9 @@
       "logoutButton": "Log Out",
       "tabs": {
         "blog": "Blog",
+        "manuf": "Manufacturers",
+        "injec": "Injectors",
+        "works": "Works",
         "manufacturers": "Manufacturers",
         "injectors": "Injectors",
         "fuelPumps": "Works",
@@ -437,6 +474,9 @@
           "label": "Publish Article",
           "helperPublished": "Article will be visible on the site",
           "helperDraft": "Article will be saved as a draft"
+        },
+        "locale":{
+          "label": "Language"
         }
       }
     },
@@ -461,7 +501,8 @@
         "titleNew": "Add Manufacturer",
         "cancel": "Cancel",
         "update": "Update",
-        "create": "Add"
+        "create": "Add",
+        "close": "Close"
       },
       "form": {
         "nameUk": {
@@ -691,6 +732,5 @@
         "statusUpdated": "Message status updated successfully"
       }
     }
-    
   }
 }

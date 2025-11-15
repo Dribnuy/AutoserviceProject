@@ -34,7 +34,7 @@ const Footer = () => {
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
           <Box sx={{ flex: '1 1 200px', minWidth: 0 }}>
             <Typography variant="h6" gutterBottom sx={{ color: '#004975', fontWeight: 'bold' }}>
-              REMONTTNVD.COM
+              KORZHINSKYISERVICE.COM
             </Typography>
             <Typography variant="body2" sx={{ mb: 2, color: '#CCCCCC' }}>
               {t('rights')}
@@ -129,7 +129,7 @@ const Footer = () => {
           }}
         >
           <Typography variant="body2" sx={{ color: '#666' }}>
-            © 2025 RemontTnvd.com. {t('rights')}
+            © 2025 KorzhinskyiService.com. {t('rights')}
           </Typography>
         </Box>
       </Container>

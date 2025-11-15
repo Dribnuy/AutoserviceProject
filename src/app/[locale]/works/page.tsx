@@ -14,6 +14,8 @@ import {
   Grid,
   Dialog,
   IconButton,
+  useTheme,
+  useMediaQuery,
 } from '@mui/material';
 import { 
   Close as CloseIcon,
@@ -28,6 +30,8 @@ import { Timestamp } from 'firebase/firestore';
 export default function WorksPage() {
   const t = useTranslations('common.works');
   const locale = useLocale();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [works, setWorks] = useState<Work[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -59,7 +63,7 @@ export default function WorksPage() {
       setWorks(worksData);
     } catch (err: any) {
       console.error('Error loading works:', err);
-      setError('Помилка завантаження робіт');
+      setError(t('errorLoading') || 'Помилка завантаження робіт');
     } finally {
       setLoading(false);
     }
@@ -105,13 +109,12 @@ export default function WorksPage() {
       <Box sx={{ py: 8, backgroundColor: '#F8F9FA' }}>
         <Container maxWidth="lg">
           <Box sx={{ textAlign: 'center', mb: 6 }}>
-            <Typography variant="h1" gutterBottom sx={{ color: '#004975', fontWeight: 'bold' }}>
+            <Typography variant={isMobile ? 'h3' : 'h1'}
+             gutterBottom sx={{ color: '#004975', fontWeight: 'bold' }}>
               {t('title')}
             </Typography>
-            <Typography variant="h5" color="text.secondary" sx={{ mb: 4 }}>
-              {locale === 'uk' 
-                ? 'Наші виконані роботи з ремонту форсунок та ТНВД' 
-                : 'Our completed works on injector and fuel pump repair'}
+            <Typography variant={isMobile ? 'h6' : 'h5'} color="text.secondary" sx={{ mb: 4 }}>
+              {t('subtitle')}
             </Typography>
           </Box>
 
@@ -124,14 +127,18 @@ export default function WorksPage() {
           {works.length === 0 ? (
             <Box sx={{ textAlign: 'center', py: 8 }}>
               <Typography variant="h6" color="text.secondary">
-                {locale === 'uk' ? 'Поки що немає опублікованих робіт' : 'No published works yet'}
+                {t('noWorks')}
               </Typography>
             </Box>
           ) : (
-            <Grid container spacing={4}>
+            <Box sx={{
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
+              gap: 3 
+            }}>
               {works.map((work) => (
-                <Grid item xs={12} md={6} key={work.id}>
-                  <Card
+               
+                  <Card key={work.id}
                     sx={{
                       height: '100%', 
                       display: 'flex',
@@ -143,14 +150,18 @@ export default function WorksPage() {
                       }
                     }}
                   >
-                    <Box sx={{ display: 'flex', height: 250 }}>
+                    <Box sx={{ 
+                      display: 'flex',
+                      flexDirection: {xs: 'column', sm:'row'},
+                      height: {xs: 400, sm: 250}
+                     }}>
                       <Box
                         sx={{
                           flex: 1,
                           position: 'relative',
                           cursor: 'pointer',
                           '&::after': {
-                            content: '"ДО"',
+                            content: `"${t('before')}"`,
                             position: 'absolute',
                             top: 10,
                             left: 10,
@@ -169,12 +180,12 @@ export default function WorksPage() {
                             component="img"
                             height="100%"
                             image={work.beforeImageURLs[0]}
-                            alt="До ремонту"
+                            alt={t('beforeRepair')}
                             sx={{ objectFit: 'cover' }}
                           />
                         ) : (
                           <Box sx={{ height: '100%', backgroundColor: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <Typography color="text.secondary">Немає фото</Typography>
+                            <Typography color="text.secondary">{t('noPhoto')}</Typography>
                           </Box>
                         )}
                       </Box>
@@ -185,7 +196,7 @@ export default function WorksPage() {
                           position: 'relative',
                           cursor: 'pointer',
                           '&::after': {
-                            content: '"ПІСЛЯ"',
+                            content: `"${t('after')}"`,
                             position: 'absolute',
                             top: 10,
                             right: 10,
@@ -204,31 +215,35 @@ export default function WorksPage() {
                             component="img"
                             height="100%"
                             image={work.afterImageURLs[0]}
-                            alt="Після ремонту"
+                            alt={t('afterRepair')}
                             sx={{ objectFit: 'cover' }}
                           />
                         ) : (
                           <Box sx={{ height: '100%', backgroundColor: '#f5f5f5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <Typography color="text.secondary">Немає фото</Typography>
+                            <Typography color="text.secondary">{t('noPhoto')}</Typography>
                           </Box>
                         )}
                       </Box>
                     </Box>
 
                     <CardContent sx={{ flexGrow: 1, p: 3 }}>
-                      <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', color: '#004975' }}>
+                      <Typography variant="h5" gutterBottom 
+                      sx={{ 
+                        fontWeight: 'bold', 
+                        color: '#004975',
+                        fontSize: {xs: '1.25rem', sm:'1.5rem'} }}>
                         {work.title}
                       </Typography>
 
                       <Box sx={{ mb: 2 }}>
                         <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-                          <strong>Автомобіль:</strong> {work.vehicleMake} {work.vehicleModel} {work.vehicleYear}
+                          <strong>{t('vehicle')}:</strong> {work.vehicleMake} {work.vehicleModel} {work.vehicleYear}
                         </Typography>
                         <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-                          <strong>Дата:</strong> {formatDate(work.workDate)}
+                          <strong>{t('date')}:</strong> {formatDate(work.workDate)}
                         </Typography>
                         <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-                          <strong>Клієнт:</strong> {work.customerInitials}
+                          <strong>{t('customer')}:</strong> {work.customerInitials}
                         </Typography>
                       </Box>
 
@@ -262,7 +277,7 @@ export default function WorksPage() {
                           <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                             <StarIcon sx={{ color: '#FFB400', fontSize: 20, mr: 0.5 }} />
                             <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#004975' }}>
-                              Відгук клієнта
+                              {t('testimonial')}
                             </Typography>
                           </Box>
                           <Typography variant="body2" sx={{ fontStyle: 'italic', color: '#555' }}>
@@ -272,9 +287,8 @@ export default function WorksPage() {
                       )}
                     </CardContent>
                   </Card>
-                </Grid>
               ))}
-            </Grid>
+            </Box>
           )}
         </Container>
       </Box>
@@ -284,6 +298,7 @@ export default function WorksPage() {
         onClose={handleCloseGallery}
         maxWidth="lg"
         fullWidth
+        fullScreen={isMobile}
         PaperProps={{
           sx: {
             backgroundColor: '#000',
@@ -313,7 +328,7 @@ export default function WorksPage() {
                   key={idx}
                   component="img"
                   src={url}
-                  alt={`Фото ${idx + 1}`}
+                  alt={`${t('photo')} ${idx + 1}`}
                   sx={{
                     maxWidth: '100%',
                     maxHeight: '70vh',
@@ -330,7 +345,7 @@ export default function WorksPage() {
                   key={idx}
                   component="img"
                   src={url}
-                  alt={`Thumb ${idx + 1}`}
+                  alt={`${t('thumb')} ${idx + 1}`}
                   onClick={() => setCurrentImageIndex(idx)}
                   sx={{
                     width: 80,

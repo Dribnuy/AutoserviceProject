@@ -27,6 +27,13 @@ import {
   MenuItem,
   FormControl,
   InputLabel,
+  Card,
+  CardContent,
+  CardActions,
+  Divider,
+  useMediaQuery,
+  useTheme,
+  Stack,
 } from '@mui/material';
 import { Delete, Search, Clear, Visibility, MailOutline, CheckCircle, Schedule } from '@mui/icons-material';
 import { 
@@ -40,7 +47,7 @@ import {
   Timestamp
 } from 'firebase/firestore';
 import { db } from '../../../config/firebase';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface Message {
   id: string;
@@ -54,6 +61,10 @@ interface Message {
 
 export default function MessagesManager() {
   const t = useTranslations('common.admin.messagesManager');
+  const locale = useLocale();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isSmallMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(true);
@@ -98,12 +109,10 @@ export default function MessagesManager() {
   const filteredMessages = useMemo(() => {
     let filtered = messages;
 
-   
     if (statusFilter !== 'all') {
       filtered = filtered.filter(msg => msg.status === statusFilter);
     }
 
-   
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase().trim();
       filtered = filtered.filter((msg) => {
@@ -147,7 +156,6 @@ export default function MessagesManager() {
     setSelectedMessage(message);
     setViewDialogOpen(true);
 
-    
     if (message.status === 'new') {
       try {
         await updateDoc(doc(db, 'messages', message.id), {
@@ -189,7 +197,7 @@ export default function MessagesManager() {
   const formatDate = (timestamp: Timestamp) => {
     if (!timestamp) return '-';
     const date = timestamp.toDate();
-    return new Intl.DateTimeFormat('uk-UA', {
+    return new Intl.DateTimeFormat(locale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -236,45 +244,147 @@ export default function MessagesManager() {
     );
   }
 
+  const renderMobileCard = (message: Message) => (
+    <Card 
+      key={message.id}
+      sx={{ 
+        mb: 2,
+        backgroundColor: message.status === 'new' ? 'rgba(211, 47, 47, 0.04)' : 'transparent',
+        border: message.status === 'new' ? '1px solid rgba(211, 47, 47, 0.2)' : '1px solid rgba(0, 0, 0, 0.12)',
+      }}
+    >
+      <CardContent sx={{ pb: 1 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1.5 }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 600, flex: 1 }}>
+            {message.name}
+          </Typography>
+          {getStatusChip(message.status)}
+        </Box>
+
+        <Stack spacing={1}>
+          <Box>
+            <Typography variant="caption" color="text.secondary">
+              Email:
+            </Typography>
+            <Typography variant="body2" sx={{ wordBreak: 'break-all' }}>
+              {message.email}
+            </Typography>
+          </Box>
+
+          <Box>
+            <Typography variant="caption" color="text.secondary">
+              {t('table.contact')}:
+            </Typography>
+            <Typography variant="body2">
+              {message.phone}
+            </Typography>
+          </Box>
+
+          <Box>
+            <Typography variant="caption" color="text.secondary">
+              {t('table.message')}:
+            </Typography>
+            <Typography 
+              variant="body2" 
+              sx={{ 
+                color: 'text.secondary',
+                display: '-webkit-box',
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+              }}
+            >
+              {message.message}
+            </Typography>
+          </Box>
+
+          <Typography variant="caption" color="text.secondary">
+            {formatDate(message.createdAt)}
+          </Typography>
+        </Stack>
+      </CardContent>
+
+      <Divider />
+
+      <CardActions sx={{ justifyContent: 'flex-end', px: 2, py: 1 }}>
+        <Button
+          size="small"
+          startIcon={<Visibility />}
+          onClick={() => handleView(message)}
+          sx={{ color: '#004975' }}
+        >
+          {t('actions.view')}
+        </Button>
+        <Button
+          size="small"
+          startIcon={<Delete />}
+          onClick={() => handleDelete(message.id)}
+          color="error"
+        >
+          {t('actions.delete')}
+        </Button>
+      </CardActions>
+    </Card>
+  );
+
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: isMobile ? 2 : 3 }}>
       <Box sx={{ mb: 3 }}>
-        <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#004975', mb: 2 }}>
+        <Typography 
+          variant={isMobile ? "h6" : "h5"} 
+          sx={{ fontWeight: 'bold', color: '#004975', mb: 2 }}
+        >
           {t('title')}
         </Typography>
         
-        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-          <Paper sx={{ px: 5, py: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
-            <MailOutline sx={{ color: '#d32f2f' }} />
+        <Box sx={{ 
+          display: 'grid', 
+          gridTemplateColumns: isSmallMobile ? '1fr' : 'repeat(auto-fit, minmax(150px, 1fr))',
+          gap: 1.5
+        }}>
+          <Paper sx={{ px: 2, py: 1.5, display: 'flex', alignItems: 'center', gap: 1 }}>
+            <MailOutline sx={{ color: '#d32f2f', fontSize: isSmallMobile ? 20 : 24 }} />
             <Box>
               <Typography variant="caption" color="text.secondary">
                 {t('stats.new')}
               </Typography>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+              <Typography 
+                variant={isSmallMobile ? "body1" : "h6"} 
+                component="div"
+                sx={{ fontWeight: 'bold' }}
+              >
                 {stats.newCount}
               </Typography>
             </Box>
           </Paper>
 
-          <Paper sx={{ px: 3, py: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
-            <CheckCircle sx={{ color: '#1976d2' }} />
+          <Paper sx={{ px: 2, py: 1.5, display: 'flex', alignItems: 'center', gap: 1 }}>
+            <CheckCircle sx={{ color: '#1976d2', fontSize: isSmallMobile ? 20 : 24 }} />
             <Box>
               <Typography variant="caption" color="text.secondary">
                 {t('stats.read')}
               </Typography>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+              <Typography 
+                variant={isSmallMobile ? "body1" : "h6"} 
+                component="div"
+                sx={{ fontWeight: 'bold' }}
+              >
                 {stats.readCount}
               </Typography>
             </Box>
           </Paper>
 
-          <Paper sx={{ px: 3, py: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Schedule sx={{ color: '#757575' }} />
+          <Paper sx={{ px: 2, py: 1.5, display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Schedule sx={{ color: '#757575', fontSize: isSmallMobile ? 20 : 24 }} />
             <Box>
               <Typography variant="caption" color="text.secondary">
                 {t('stats.archived')}
               </Typography>
-              <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+              <Typography 
+                variant={isSmallMobile ? "body1" : "h6"} 
+                component="div"
+                sx={{ fontWeight: 'bold' }}
+              >
                 {stats.archivedCount}
               </Typography>
             </Box>
@@ -295,12 +405,13 @@ export default function MessagesManager() {
       )}
 
       <Paper sx={{ p: 2, mb: 2, boxShadow: 1 }}>
-        <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+        <Stack spacing={2}>
           <TextField
-            sx={{ flex: 1, minWidth: 200 }}
+            fullWidth
             placeholder={t('search.placeholder')}
             value={searchQuery}
             onChange={handleSearchChange}
+            size={isMobile ? "small" : "medium"}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -321,7 +432,7 @@ export default function MessagesManager() {
             }}
           />
           
-          <FormControl sx={{ minWidth: 150 }}>
+          <FormControl fullWidth size={isMobile ? "small" : "medium"}>
             <InputLabel>{t('filter.status')}</InputLabel>
             <Select
               value={statusFilter}
@@ -337,109 +448,114 @@ export default function MessagesManager() {
               <MenuItem value="archived">{t('status.archived')}</MenuItem>
             </Select>
           </FormControl>
-        </Box>
 
-        {(searchQuery || statusFilter !== 'all') && (
-          <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
+          {(searchQuery || statusFilter !== 'all') && (
             <Typography variant="caption" color="text.secondary">
               {t('search.resultsFound')} {filteredMessages.length}
             </Typography>
-          </Box>
-        )}
+          )}
+        </Stack>
       </Paper>
 
-      <TableContainer component={Paper} sx={{ boxShadow: 1, mb: 2 }}>
-        <Table>
-          <TableHead>
-            <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
-              <TableCell sx={{ fontWeight: 'bold' }}>{t('table.status')}</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>{t('table.name')}</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>{t('table.contact')}</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>{t('table.message')}</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>{t('table.date')}</TableCell>
-              <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>{t('table.actions')}</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paginatedMessages.map((message) => (
-              <TableRow 
-                key={message.id}
-                sx={{ 
-                  '&:hover': { backgroundColor: '#f9f9f9' },
-                  '&:last-child td': { border: 0 },
-                  backgroundColor: message.status === 'new' ? 'rgba(211, 47, 47, 0.04)' : 'transparent'
-                }}
-              >
-                <TableCell>
-                  {getStatusChip(message.status)}
-                </TableCell>
-                <TableCell>
-                  <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                    {message.name}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="body2" sx={{ fontSize: '0.875rem' }}>
-                    {message.email}
-                  </Typography>
-                  <Typography variant="caption" color="text.secondary">
-                    {message.phone}
-                  </Typography>
-                </TableCell>
-                <TableCell sx={{ maxWidth: 300 }}>
-                  <Typography 
-                    variant="body2" 
-                    noWrap 
-                    title={message.message}
-                    sx={{ color: 'text.secondary' }}
-                  >
-                    {message.message}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography variant="caption" color="text.secondary">
-                    {formatDate(message.createdAt)}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
-                    <IconButton
-                      size="small"
-                      onClick={() => handleView(message)}
-                      sx={{ color: '#004975' }}
-                      title={t('actions.view')}
-                    >
-                      <Visibility fontSize="small" />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      onClick={() => handleDelete(message.id)}
-                      sx={{ color: '#d32f2f' }}
-                      title={t('actions.delete')}
-                    >
-                      <Delete fontSize="small" />
-                    </IconButton>
-                  </Box>
-                </TableCell>
+      {isMobile ? (
+        <Box>
+          {paginatedMessages.map(renderMobileCard)}
+        </Box>
+      ) : (
+        
+        <TableContainer component={Paper} sx={{ boxShadow: 1, mb: 2 }}>
+          <Table>
+            <TableHead>
+              <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
+                <TableCell sx={{ fontWeight: 'bold' }}>{t('table.status')}</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>{t('table.name')}</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>{t('table.contact')}</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>{t('table.message')}</TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }}>{t('table.date')}</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', textAlign: 'center' }}>{t('table.actions')}</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {paginatedMessages.map((message) => (
+                <TableRow 
+                  key={message.id}
+                  sx={{ 
+                    '&:hover': { backgroundColor: '#f9f9f9' },
+                    '&:last-child td': { border: 0 },
+                    backgroundColor: message.status === 'new' ? 'rgba(211, 47, 47, 0.04)' : 'transparent'
+                  }}
+                >
+                  <TableCell>
+                    {getStatusChip(message.status)}
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                      {message.name}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="body2" sx={{ fontSize: '0.875rem' }}>
+                      {message.email}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {message.phone}
+                    </Typography>
+                  </TableCell>
+                  <TableCell sx={{ maxWidth: 300 }}>
+                    <Typography 
+                      variant="body2" 
+                      noWrap 
+                      title={message.message}
+                      sx={{ color: 'text.secondary' }}
+                    >
+                      {message.message}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="caption" color="text.secondary">
+                      {formatDate(message.createdAt)}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Box sx={{ display: 'flex', gap: 1, justifyContent: 'center' }}>
+                      <IconButton
+                        size="small"
+                        onClick={() => handleView(message)}
+                        sx={{ color: '#004975' }}
+                        title={t('actions.view')}
+                      >
+                        <Visibility fontSize="small" />
+                      </IconButton>
+                      <IconButton
+                        size="small"
+                        onClick={() => handleDelete(message.id)}
+                        sx={{ color: '#d32f2f' }}
+                        title={t('actions.delete')}
+                      >
+                        <Delete fontSize="small" />
+                      </IconButton>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
 
       {filteredMessages.length > 0 && (
         <TablePagination
           component={Paper}
           sx={{ boxShadow: 1 }}
-          rowsPerPageOptions={[5, 10, 15, 20, 25, 50]}
+          rowsPerPageOptions={isMobile ? [5, 10, 15] : [5, 10, 15, 20, 25, 50]}
           count={filteredMessages.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage={t('pagination.rowsPerPage')}
+          labelRowsPerPage={isMobile ? '' : t('pagination.rowsPerPage')}
           labelDisplayedRows={({ from, to, count }) => 
-            `${from}-${to} ${t('pagination.of')} ${count}`
+            isMobile ? `${from}-${to} / ${count}` : `${from}-${to} ${t('pagination.of')} ${count}`
           }
         />
       )}
@@ -460,9 +576,15 @@ export default function MessagesManager() {
         onClose={() => setViewDialogOpen(false)} 
         maxWidth="md" 
         fullWidth
+        fullScreen={isMobile}
       >
-        <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Typography variant="h6">
+        <DialogTitle sx={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          pb: 1
+        }}>
+          <Typography variant={isMobile ? "subtitle1" : "h6"}>
             {t('dialog.title')}
           </Typography>
           <IconButton onClick={() => setViewDialogOpen(false)} size="small">
@@ -471,12 +593,12 @@ export default function MessagesManager() {
         </DialogTitle>
         <DialogContent>
           {selectedMessage && (
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, mt: 2 }}>
+            <Stack spacing={2.5} sx={{ mt: 1 }}>
               <Box>
                 <Typography variant="subtitle2" color="text.secondary" gutterBottom>
                   {t('dialog.status')}
                 </Typography>
-                <FormControl fullWidth>
+                <FormControl fullWidth size={isMobile ? "small" : "medium"}>
                   <Select
                     value={selectedMessage.status}
                     onChange={(e) => handleStatusChange(
@@ -504,7 +626,10 @@ export default function MessagesManager() {
                 <Typography variant="subtitle2" color="text.secondary" gutterBottom>
                   {t('dialog.email')}
                 </Typography>
-                <Typography variant="body1">
+                <Typography 
+                  variant="body1" 
+                  sx={{ wordBreak: 'break-all' }}
+                >
                   <a href={`mailto:${selectedMessage.email}`} style={{ color: '#004975' }}>
                     {selectedMessage.email}
                   </a>
@@ -540,19 +665,20 @@ export default function MessagesManager() {
                     p: 2, 
                     backgroundColor: '#f5f5f5', 
                     borderRadius: 2,
-                    whiteSpace: 'pre-wrap'
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word'
                   }}
                 >
-                  <Typography variant="body1">
+                  <Typography variant="body2">
                     {selectedMessage.message}
                   </Typography>
                 </Paper>
               </Box>
-            </Box>
+            </Stack>
           )}
         </DialogContent>
-        <DialogActions sx={{ p: 3 }}>
-          <Button onClick={() => setViewDialogOpen(false)}>
+        <DialogActions sx={{ p: 2, pt: 1 }}>
+          <Button onClick={() => setViewDialogOpen(false)} fullWidth={isMobile}>
             {t('dialog.close')}
           </Button>
         </DialogActions>

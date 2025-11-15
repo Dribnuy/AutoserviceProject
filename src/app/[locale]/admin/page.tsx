@@ -245,13 +245,13 @@ export default function AdminPage() {
   return (
     <Box
       sx={{
-        py: { xs: 2, sm: 3, md: 4, lg: 6 },
-        px: { xs: 1, sm: 2, md: 3 },
+        py: { xs: 1.5, sm: 3, md: 4, lg: 6 },
+        px: { xs: 0.5, sm: 2, md: 3 },
         backgroundColor: '#F8F9FA',
         minHeight: '100vh',
       }}
     >
-      <Container maxWidth="xl" sx={{ px: { xs: 0, sm: 2 } }}>
+      <Container maxWidth="xl" sx={{ px: { xs: 0.5, sm: 2 } }}>
         <Box
           sx={{
             display: 'flex',
@@ -259,12 +259,12 @@ export default function AdminPage() {
             justifyContent: 'space-between',
             alignItems: { xs: 'stretch', sm: 'center' },
             gap: { xs: 1.5, sm: 2 },
-            mb: { xs: 2, sm: 3, md: 4 },
-            p: { xs: 1.5, sm: 2, md: 3 },
+            mb: { xs: 1.5, sm: 3, md: 4 },
+            p: { xs: 2, sm: 2, md: 3 },
             backgroundColor: '#fff',
             borderRadius: { xs: 2, sm: 3 },
             boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-            mx: { xs: 1, sm: 0 },
+            mx: { xs: 0.5, sm: 0 },
           }}
         >
           <Box sx={{ flex: 1 }}>
@@ -308,7 +308,7 @@ export default function AdminPage() {
           sx={{
             borderRadius: { xs: 2, sm: 3 },
             overflow: 'hidden',
-            mx: { xs: 1, sm: 0 },
+            mx: { xs: 0.5, sm: 0 },
           }}
         >
           <Box
@@ -317,6 +317,16 @@ export default function AdminPage() {
               borderColor: 'divider',
               backgroundColor: '#fff',
               overflowX: 'auto',
+              '&::-webkit-scrollbar': {
+                height: { xs: 4, sm: 6 },
+              },
+              '&::-webkit-scrollbar-track': {
+                backgroundColor: '#f1f1f1',
+              },
+              '&::-webkit-scrollbar-thumb': {
+                backgroundColor: '#004975',
+                borderRadius: 3,
+              },
             }}
           >
             <Tabs
@@ -326,22 +336,28 @@ export default function AdminPage() {
               scrollButtons={isMobile || isTablet ? 'auto' : false}
               allowScrollButtonsMobile
               sx={{
-                minHeight: { xs: 42, sm: 48, md: 56 },
+                minHeight: { xs: 48, sm: 48, md: 56 },
                 '& .MuiTabs-scrollButtons': {
+                  width: { xs: 32, sm: 40 },
+                  color: '#004975',
                   '&.Mui-disabled': {
                     opacity: 0.3,
                   },
                 },
+                '& .MuiTabs-flexContainer': {
+                  gap: { xs: 0, sm: 0.5 },
+                },
                 '& .MuiTab-root': {
                   textTransform: 'none',
-                  fontSize: { xs: '0.75rem', sm: '0.875rem', md: '1rem' },
+                  fontSize: { xs: '0.813rem', sm: '0.875rem', md: '1rem' },
                   fontWeight: 600,
-                  minWidth: { xs: 80, sm: 100, md: 120 },
-                  minHeight: { xs: 42, sm: 48, md: 56 },
-                  px: { xs: 1, sm: 1.5, md: 2 },
-                  py: { xs: 0.75, sm: 1, md: 1.5 },
+                  minWidth: { xs: 'auto', sm: 100, md: 120 },
+                  minHeight: { xs: 48, sm: 48, md: 56 },
+                  px: { xs: 1.5, sm: 2, md: 2.5 },
+                  py: { xs: 1, sm: 1, md: 1.5 },
                   color: '#666',
                   transition: 'all 0.3s',
+                  whiteSpace: 'nowrap',
                   '&:hover': {
                     color: '#004975',
                     backgroundColor: 'rgba(0, 73, 117, 0.04)',
@@ -355,36 +371,52 @@ export default function AdminPage() {
               TabIndicatorProps={{
                 sx: {
                   backgroundColor: '#004975',
-                  height: { xs: 2, sm: 3 },
+                  height: { xs: 3, sm: 3 },
                 },
               }}
             >
               <Tab 
                 label={
-                  <Badge 
-                    badgeContent={newMessagesCount} 
-                    color="primary"  
+                  <Box
                     sx={{
-                      '& .MuiBadge-badge': {
-                        right: { xs: -8, sm: -10 },
-                        top: { xs: 2, sm: 4 },
-                        fontSize: { xs: '0.625rem', sm: '0.7rem' },
-                        height: { xs: 16, sm: 18 },
-                        minWidth: { xs: 16, sm: 18 },
-                        padding: { xs: '0 4px', sm: '0 6px' },
-                      },
+                      position: 'relative',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      pr: newMessagesCount > 0 ? { xs: 2.5, sm: 3 } : 0,
                     }}
                   >
-                    <span style={{ display: 'inline-block' }}>
-                      {isMobile ? t('dashboard.tabs.messages').substring(0, 8) : t('dashboard.tabs.messages')}
+                    <span>
+                      {t('dashboard.tabs.messages')}
                     </span>
-                  </Badge>
+                    {newMessagesCount > 0 && (
+                      <Badge 
+                        badgeContent={newMessagesCount} 
+                        color="primary"
+                        sx={{
+                          position: 'absolute',
+                          top: { xs: 2, sm: -1 },
+                          right: { xs: 9, sm: 14 },
+                          '& .MuiBadge-badge': {
+                            fontSize: { xs: '0.625rem', sm: '0.7rem' },
+                            height: { xs: 18, sm: 20 },
+                            minWidth: { xs: 18, sm: 20 },
+                            padding: { xs: '0 1px', sm: '0 5px' },
+                            backgroundColor: '#004975',
+                            fontWeight: 700,
+                          },
+                        }}
+                      >
+                        <span style={{ visibility: 'hidden', width: 0 }} />
+                      </Badge>
+                    )}
+                  </Box>
                 } 
               />
-              <Tab label={isMobile ? t('dashboard.tabs.blog').substring(0, 6) : t('dashboard.tabs.blog')} />
-              <Tab label={isMobile ? 'Виробн.' : t('dashboard.tabs.manufacturers')} />
-              <Tab label={isMobile ? 'Форс.' : t('dashboard.tabs.injectors')} />
-              <Tab label={isMobile ? 'Роботи' : t('dashboard.tabs.fuelPumps')} />
+              <Tab label={t('dashboard.tabs.blog')} />
+              <Tab label={t('dashboard.tabs.manufacturers')} />
+              <Tab label={t('dashboard.tabs.injectors')} />
+              <Tab label={t('dashboard.tabs.fuelPumps')} />
             </Tabs>
           </Box>
 
