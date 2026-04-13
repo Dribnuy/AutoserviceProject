@@ -554,6 +554,16 @@
           "urlPlaceholder": "https://example.com/image.jpg",
           "urlHelper": "Вставте пряме посилання на зображення"
         }
+      },
+      "search": {
+        "placeholder": "Пошук за назвою, артикулом, виробником або автомобілем...",
+        "resultsFound": "Знайдено результатів:",
+        "noResults": "Нічого не знайдено за вашим запитом",
+        "clear": "Очистити пошук"
+      },
+      "pagination": {
+        "rowsPerPage": "Рядків на сторінці:",
+        "displayedRows": "{from}-{to} з {count}"
       }
     },
     "worksManager": {

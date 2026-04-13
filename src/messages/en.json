@@ -554,6 +554,16 @@
           "urlPlaceholder": "https://example.com/image.jpg",
           "urlHelper": "Insert direct link to image"
         }
+      },
+      "search": {
+        "placeholder": "Search by name, part number, manufacturer or vehicle...",
+        "resultsFound": "Found results:",
+        "noResults": "Nothing found for your query",
+        "clear": "Clear search"
+      },
+      "pagination": {
+        "rowsPerPage": "Rows per page:",
+        "displayedRows": "{from}-{to} of {count}"
       }
     },
     "worksManager": {

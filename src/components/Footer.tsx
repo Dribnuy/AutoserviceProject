@@ -123,7 +123,7 @@ const Footer = () => {
           }}
         >
           <Typography variant="body2" sx={{ color: '#666' }}>
-            © 2024 RemontTnvd.com. {t('rights')}
+            © 2025 RemontTnvd.com. {t('rights')}
           </Typography>
         </Box>
       </Container>

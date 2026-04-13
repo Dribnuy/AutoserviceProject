@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
   Box,
   Button,
@@ -24,8 +24,11 @@ import {
   TableHead,
   TableRow,
   Paper,
+  TablePagination,
+  InputAdornment,
+  Chip,
 } from '@mui/material';
-import { Add, Edit, Delete, Close } from '@mui/icons-material';
+import { Add, Edit, Delete, Close, Search, Clear } from '@mui/icons-material';
 import { 
   collection, 
   addDoc, 
@@ -81,7 +84,10 @@ export default function InjectorManager() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [imagePreview, setImagePreview] = useState('');
-  const [useImageUrl, setUseImageUrl] = useState(true);
+  
+  const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -143,6 +149,50 @@ export default function InjectorManager() {
        return locale === 'uk' ? item.description : item.descriptionEn;
     }
     return '';
+  };
+
+  const filteredInjectors = useMemo(() => {
+    if (!searchQuery.trim()) return injectors;
+
+    const query = searchQuery.toLowerCase().trim();
+    
+    return injectors.filter((injector) => {
+      const nameMatch = injector.name.toLowerCase().includes(query) || 
+                       injector.nameEn.toLowerCase().includes(query);
+      const partNumberMatch = injector.partNumber.toLowerCase().includes(query);
+      const manufacturerMatch = injector.manufacturerName?.toLowerCase().includes(query);
+      const vehiclesMatch = injector.vehicles.some(v => v.toLowerCase().includes(query));
+      const specsMatch = injector.specifications?.pressure?.toLowerCase().includes(query) ||
+                        injector.specifications?.flowRate?.toLowerCase().includes(query) ||
+                        injector.specifications?.voltage?.toLowerCase().includes(query);
+      
+      return nameMatch || partNumberMatch || manufacturerMatch || vehiclesMatch || specsMatch;
+    });
+  }, [injectors, searchQuery]);
+
+  
+  const paginatedInjectors = useMemo(() => {
+    const startIndex = page * rowsPerPage;
+    return filteredInjectors.slice(startIndex, startIndex + rowsPerPage);
+  }, [filteredInjectors, page, rowsPerPage]);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+    setPage(0);
+  };
+
+  const clearSearch = () => {
+    setSearchQuery('');
+    setPage(0);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -260,7 +310,6 @@ export default function InjectorManager() {
       image: null,
     });
     setImagePreview(injector.image);
-    setUseImageUrl(true);
     setDialogOpen(true);
   };
 
@@ -306,7 +355,7 @@ export default function InjectorManager() {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3, flexWrap: 'wrap', gap: 2 }}>
         <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#004975' }}>
           {t('title')}
         </Typography>
@@ -337,7 +386,61 @@ export default function InjectorManager() {
         </Alert>
       )}
 
-      <TableContainer component={Paper} sx={{ boxShadow: 1 }}>
+      
+      <Paper sx={{ p: 2, mb: 2, boxShadow: 1 }}>
+        <TextField
+          fullWidth
+          placeholder={t('search.placeholder')}
+          value={searchQuery}
+          onChange={handleSearchChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Search sx={{ color: '#004975' }} />
+              </InputAdornment>
+            ),
+            endAdornment: searchQuery && (
+              <InputAdornment position="end">
+                <IconButton 
+                  onClick={clearSearch} 
+                  size="small"
+                  title={t('search.clear')}
+                >
+                  <Clear />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              '&:hover fieldset': {
+                borderColor: '#004975',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: '#004975',
+              },
+            },
+          }}
+        />
+        {searchQuery && (
+          <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Typography variant="caption" color="text.secondary">
+              {t('search.resultsFound')} {filteredInjectors.length}
+            </Typography>
+            {filteredInjectors.length > 0 && (
+              <Chip 
+                label={searchQuery} 
+                size="small" 
+                onDelete={clearSearch}
+                color="primary"
+                variant="outlined"
+              />
+            )}
+          </Box>
+        )}
+      </Paper>
+
+      <TableContainer component={Paper} sx={{ boxShadow: 1, mb: 2 }}>
         <Table>
           <TableHead>
             <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
@@ -350,7 +453,7 @@ export default function InjectorManager() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {injectors.map((injector) => (
+            {paginatedInjectors.map((injector) => (
               <TableRow 
                 key={injector.id}
                 sx={{ 
@@ -412,10 +515,31 @@ export default function InjectorManager() {
         </Table>
       </TableContainer>
 
-      {injectors.length === 0 && manufacturers.length > 0 && (
+      
+      {filteredInjectors.length > 0 && (
+        <TablePagination
+          component={Paper}
+          sx={{ boxShadow: 1 }}
+          rowsPerPageOptions={[5, 10, 15, 20, 25, 50]}
+          count={filteredInjectors.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage={t('pagination.rowsPerPage')}
+          labelDisplayedRows={({ from, to, count }) => 
+            t('pagination.displayedRows', { from, to, count })
+          }
+        />
+      )}
+
+      {filteredInjectors.length === 0 && !loading && (
         <Box sx={{ textAlign: 'center', py: 4 }}>
           <Typography color="text.secondary">
-            {t('emptyState')}
+            {searchQuery 
+              ? t('search.noResults')
+              : (manufacturers.length > 0 ? t('emptyState') : '')
+            }
           </Typography>
         </Box>
       )}
