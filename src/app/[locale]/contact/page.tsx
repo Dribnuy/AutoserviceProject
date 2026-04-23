@@ -1,11 +1,89 @@
 'use client';
 
-import { Container, Typography, Box, Grid, Card, CardContent, TextField, Button, Divider } from '@mui/material';
+import { Container, Typography, Box, Card, CardContent, TextField, Button, Alert, CircularProgress } from '@mui/material';
 import { LocationOn, Phone, Email, AccessTime } from '@mui/icons-material';
 import { useTranslations } from 'next-intl';
+import { useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../../../config/firebase';
+
+const contactSchema = yup.object({
+  name: yup
+    .string()
+    .required('Ім\'я є обов\'язковим')
+    .min(2, 'Ім\'я повинно містити мінімум 2 символи')
+    .max(100, 'Ім\'я повинно містити максимум 100 символів'),
+  email: yup
+    .string()
+    .required('Email є обов\'язковим')
+    .email('Введіть коректний email'),
+  phone: yup
+    .string()
+    .required('Телефон є обов\'язковим')
+    .matches(
+      /^[\+]?[(]?[0-9]{1,4}[)]?[-\s\.]?[(]?[0-9]{1,4}[)]?[-\s\.]?[0-9]{1,9}$/,
+      'Введіть коректний номер телефону'
+    ),
+  message: yup
+    .string()
+    .required('Повідомлення є обов\'язковим')
+    .min(10, 'Повідомлення повинно містити мінімум 10 символів')
+    .max(1000, 'Повідомлення повинно містити максимум 1000 символів'),
+}).required();
+
+type ContactFormData = yup.InferType<typeof contactSchema>;
 
 export default function ContactPage() {
   const t = useTranslations('common.contact');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState('');
+  const [error, setError] = useState('');
+
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ContactFormData>({
+    resolver: yupResolver(contactSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      phone: '',
+      message: '',
+    },
+  });
+
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      setLoading(true);
+      setError('');
+      setSuccess('');
+
+      await addDoc(collection(db, 'messages'), {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        message: data.message,
+        status: 'new', 
+        createdAt: serverTimestamp(),
+      });
+
+      setSuccess('Ваше повідомлення успішно відправлено! Ми зв\'яжемося з вами найближчим часом.');
+      reset(); 
+
+    
+      setTimeout(() => setSuccess(''), 5000);
+    } catch (err: any) {
+      console.error('Error saving message:', err);
+      setError('Помилка при відправці повідомлення: ' + (err.message || 'Спробуйте пізніше'));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <main>
@@ -24,56 +102,130 @@ export default function ContactPage() {
           >
             {t('title')}
           </Typography>
+
+     
+          {success && (
+            <Alert severity="success" sx={{ mb: 3 }} onClose={() => setSuccess('')}>
+              {success}
+            </Alert>
+          )}
+
+          {error && (
+            <Alert severity="error" sx={{ mb: 3 }} onClose={() => setError('')}>
+              {error}
+            </Alert>
+          )}
+
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+           
             <Box sx={{ flex: '1 1 300px', minWidth: 0 }}>
               <Card>
                 <CardContent sx={{ p: 4 }}>
                   <Typography variant="h4" gutterBottom sx={{ color: '#004975', fontWeight: 'bold' }}>
                     {t('formTitle')}
                   </Typography>
-                  <Box component="form" sx={{ mt: 3 }}>
-                    <TextField
-                      fullWidth
-                      label={t('name')}
-                      margin="normal"
-                      variant="outlined"
+                  <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
+                   
+                    <Controller
+                      name="name"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          fullWidth
+                          label={t('name')}
+                          margin="normal"
+                          variant="outlined"
+                          error={!!errors.name}
+                          helperText={errors.name?.message}
+                          disabled={loading}
+                        />
+                      )}
                     />
-                    <TextField
-                      fullWidth
-                      label={t('email')}
-                      margin="normal"
-                      variant="outlined"
-                      type="email"
+
+                
+                    <Controller
+                      name="email"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          fullWidth
+                          label={t('email')}
+                          margin="normal"
+                          variant="outlined"
+                          type="email"
+                          error={!!errors.email}
+                          helperText={errors.email?.message}
+                          disabled={loading}
+                        />
+                      )}
                     />
-                    <TextField
-                      fullWidth
-                      label={t('phone')}
-                      margin="normal"
-                      variant="outlined"
+
+                   
+                    <Controller
+                      name="phone"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          fullWidth
+                          label={t('phone')}
+                          margin="normal"
+                          variant="outlined"
+                          error={!!errors.phone}
+                          helperText={errors.phone?.message}
+                          disabled={loading}
+                          placeholder="+380XXXXXXXXX"
+                        />
+                      )}
                     />
-                    <TextField
-                      fullWidth
-                      label={t('message')}
-                      margin="normal"
-                      variant="outlined"
-                      multiline
-                      rows={4}
+
+                  
+                    <Controller
+                      name="message"
+                      control={control}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          fullWidth
+                          label={t('message')}
+                          margin="normal"
+                          variant="outlined"
+                          multiline
+                          rows={4}
+                          error={!!errors.message}
+                          helperText={errors.message?.message}
+                          disabled={loading}
+                        />
+                      )}
                     />
+
+                   
                     <Button
+                      type="submit"
                       variant="contained"
                       size="large"
+                      disabled={loading}
                       sx={{
                         mt: 3,
                         backgroundColor: '#004975',
-                        '&:hover': { backgroundColor: '#003A5C' }
+                        '&:hover': { backgroundColor: '#003A5C' },
+                        minWidth: 120,
                       }}
                     >
-                      {t('send')}
+                      {loading ? (
+                        <CircularProgress size={24} sx={{ color: 'white' }} />
+                      ) : (
+                        t('send')
+                      )}
                     </Button>
                   </Box>
                 </CardContent>
               </Card>
             </Box>
+
+            
             <Box sx={{ flex: '1 1 300px', minWidth: 0 }}>
               <Card sx={{ height: '100%' }}>
                 <CardContent sx={{ p: 4 }}>
@@ -101,7 +253,10 @@ export default function ContactPage() {
                           {t('phoneLabel')}
                         </Typography>
                         <Typography variant="body1" sx={{ color: '#666' }}>
-                          {t('phoneValue')}
+                          {t('phoneValue1')}
+                        </Typography>
+                        <Typography variant="body1" sx={{ color: '#666' }}>
+                          {t('phoneValue2')}
                         </Typography>
                       </Box>
                     </Box>
@@ -136,6 +291,7 @@ export default function ContactPage() {
               </Card>
             </Box>
           </Box>
+          
           
           <Box sx={{ mt: 6 }}>
             <Typography variant="h4" textAlign="center" gutterBottom sx={{ color: '#004975', fontWeight: 'bold' }}>

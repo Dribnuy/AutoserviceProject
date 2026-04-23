@@ -15,8 +15,12 @@ import {
   CircularProgress,
   Paper,
   Stack,
+  useMediaQuery,
+  useTheme,
+  
 } from '@mui/material';
 import { Add, Edit, Delete } from '@mui/icons-material';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { 
   collection, 
   addDoc, 
@@ -41,6 +45,8 @@ interface Manufacturer {
 export default function ManufacturerManager() {
   const t = useTranslations('common.admin.manufacturerManager');
   const locale = useLocale();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   
   const [manufacturers, setManufacturers] = useState<Manufacturer[]>([]);
   const [loading, setLoading] = useState(true);
@@ -48,6 +54,8 @@ export default function ManufacturerManager() {
   const [editingManufacturer, setEditingManufacturer] = useState<Manufacturer | null>(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [viewingManufacturer, setViewingManufacturer] = useState<Manufacturer | null>(null);
+  const [descriptionDialogOpen, setDescriptionDialog] = useState(false);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -149,6 +157,14 @@ export default function ManufacturerManager() {
     });
     setEditingManufacturer(null);
   };
+  const handleOpenDescription = (manufacturer: Manufacturer) => {
+    setViewingManufacturer(manufacturer);
+    setDescriptionDialog(true);
+  }
+
+  const handleCloseDescription = (manufacturer: Manufacturer) => {
+    setDescriptionDialog(false);
+  }
 
   const getLocalizedText = (manufacturer: Manufacturer, field: 'name' | 'description') => {
     if (field === 'name') {
@@ -167,13 +183,20 @@ export default function ManufacturerManager() {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
+      <Box sx={{
+         display: 'flex', 
+         flexDirection: {xs:'column', sm: 'row'},
+         justifyContent: 'space-between', 
+         alignItems:{xs:'flex-start', sm: 'center'},
+         gap: 2,
+         mb: 3 }}>
         <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#004975' }}>
           {t('title')}
         </Typography>
         <PrimaryButton
           startIcon={<Add />}
           onClick={() => setDialogOpen(true)}
+          sx={{ alignSelf: { xs: 'center', sm: 'auto' } }}
         >
           {t('addNew')}
         </PrimaryButton>
@@ -210,13 +233,18 @@ export default function ManufacturerManager() {
               <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
                 {locale === 'uk' ? 'UK' : 'EN'}: {manufacturer.name} / {manufacturer.nameEn}
               </Typography>
-              {getLocalizedText(manufacturer, 'description') && (
-                <Typography variant="body2" sx={{ mt: 1, color: 'text.secondary' }}>
-                  {getLocalizedText(manufacturer, 'description')}
-                </Typography>
-              )}
+             
             </Box>
             <Box sx={{ display: 'flex', gap: 1 }}>
+            {getLocalizedText(manufacturer, 'description') && (
+              <IconButton
+                size="small"
+                onClick={() => handleOpenDescription(manufacturer)}
+                sx={{ color: '#666' }} // Можеш обрати інший колір
+              >
+                <MoreHorizIcon />
+              </IconButton>
+            )}
               <IconButton
                 size="small"
                 onClick={() => handleEdit(manufacturer)}
@@ -296,6 +324,36 @@ export default function ManufacturerManager() {
           </PrimaryButton>
         </DialogActions>
       </Dialog>
+      <Dialog 
+      open={descriptionDialogOpen} 
+      onClose={handleCloseDescription} 
+      maxWidth="sm" 
+      fullWidth
+      // Додаємо `onTransitionEnd`, щоб скинути стан *після* анімації закриття
+      onTransitionEnd={() => !descriptionDialogOpen && setViewingManufacturer(null)}
+    >
+      <DialogTitle sx={{ fontWeight: 'bold', color: '#004975' }}>
+        {viewingManufacturer ? getLocalizedText(viewingManufacturer, 'name') : ''}
+      </DialogTitle>
+      <DialogContent>
+        <Typography 
+          sx={{ 
+            mt: 2, 
+            whiteSpace: 'pre-wrap', // Зберігає переноси рядків, якщо вони є
+            color: '#333', 
+            lineHeight: 1.7 
+          }}
+        >
+          {viewingManufacturer ? getLocalizedText(viewingManufacturer, 'description') : t('noDescription')}
+        </Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseDescription}>
+          {t('dialog.close')} {/* Використаємо переклад з іншого діалогу */}
+        </Button>
+      </DialogActions>
+    </Dialog>
+    {/* ▲▲▲ КІНЕЦЬ НОВОГО DIALOG ▲▲▲ */}
     </Box>
   );
 }

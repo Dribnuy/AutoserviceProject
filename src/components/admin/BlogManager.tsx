@@ -32,6 +32,10 @@ import {
   Grid,
   ToggleButtonGroup,
   ToggleButton,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from '@mui/material';
 import {
   Edit,
@@ -53,6 +57,7 @@ import {
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useTranslations } from 'next-intl';
+import { PrimaryButton } from '../shared';
 
 interface BlogArticle {
   id: string;
@@ -334,30 +339,55 @@ export default function BlogManager() {
   };
 
   const renderCardsView = () => (
-    <Grid container spacing={3}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: { xs: 2, sm: 2.5, md: 3 },
+      }}
+    >
       {articles.map((article) => (
-        <Grid item xs={12} sm={6} md={4} key={article.id}>
-          <Card
+        <Card
+          key={article.id}
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            transition: 'all 0.3s',
+            overflow: 'hidden',
+            '&:hover': {
+              transform: 'translateY(-2px)',
+              boxShadow: 4,
+            },
+          }}
+        >
+          <CardMedia
+            component="img"
             sx={{
-              height: '100%',
+              width: { xs: '100%', sm: 200, md: 240 },
+              height: { xs: 180, sm: 'auto' },
+              objectFit: 'cover',
+            }}
+            image={article.coverImageURL}
+            alt={article.title}
+          />
+          <Box
+            sx={{
               display: 'flex',
               flexDirection: 'column',
-              transition: 'all 0.3s',
-              '&:hover': {
-                transform: 'translateY(-4px)',
-                boxShadow: 4,
-              },
+              flex: 1,
+              minWidth: 0,
             }}
           >
-            <CardMedia
-              component="img"
-              height="180"
-              image={article.coverImageURL}
-              alt={article.title}
-              sx={{ objectFit: 'cover' }}
-            />
-            <CardContent sx={{ flexGrow: 1, pb: 1 }}>
-              <Box sx={{ display: 'flex', gap: 1, mb: 1, flexWrap: 'wrap' }}>
+            <CardContent sx={{ flex: 1, pb: { xs: 1, sm: 2 } }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  gap: 1,
+                  mb: 1.5,
+                  flexWrap: 'wrap',
+                  alignItems: 'center',
+                }}
+              >
                 <Chip
                   label={
                     article.status === 'published'
@@ -366,95 +396,129 @@ export default function BlogManager() {
                   }
                   size="small"
                   color={article.status === 'published' ? 'success' : 'default'}
+                  sx={{ fontWeight: 600 }}
                 />
                 <Chip
                   label={article.locale.toUpperCase()}
                   size="small"
                   variant="outlined"
                 />
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ ml: 'auto' }}
+                >
+                  {article.publishedAt
+                    ? new Date(
+                        article.publishedAt.seconds * 1000
+                      ).toLocaleDateString('uk-UA')
+                    : t('status.notPublished')}
+                </Typography>
               </Box>
+
               <Typography
                 variant="h6"
                 sx={{
                   fontWeight: 'bold',
                   mb: 1,
+                  fontSize: { xs: '1rem', sm: '1.125rem', md: '1.25rem' },
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   display: '-webkit-box',
                   WebkitLineClamp: 2,
                   WebkitBoxOrient: 'vertical',
+                  lineHeight: 1.4,
                 }}
               >
                 {article.title}
               </Typography>
+
               <Typography
                 variant="body2"
                 color="text.secondary"
                 sx={{
-                  mb: 1,
+                  mb: 1.5,
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   display: '-webkit-box',
-                  WebkitLineClamp: 2,
+                  WebkitLineClamp: { xs: 2, sm: 3 },
                   WebkitBoxOrient: 'vertical',
+                  lineHeight: 1.5,
                 }}
               >
                 {article.excerpt}
               </Typography>
-              <Typography variant="caption" color="text.secondary">
-                {article.publishedAt
-                  ? new Date(
-                      article.publishedAt.seconds * 1000
-                    ).toLocaleDateString('uk-UA')
-                  : t('status.notPublished')}
-              </Typography>
-            </CardContent>
-            <CardActions sx={{ justifyContent: 'space-between', px: 2, pb: 2 }}>
-              <Box sx={{ display: 'flex', gap: 0.5 }}>
-                {article.tags?.slice(0, 2).map((tag) => (
-                  <Chip key={tag} label={tag} size="small" variant="outlined" />
-                ))}
-                {article.tags?.length > 2 && (
+
+              <Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
+                {article.tags?.slice(0, 3).map((tag) => (
                   <Chip
-                    label={`+${article.tags.length - 2}`}
+                    key={tag}
+                    label={tag}
                     size="small"
                     variant="outlined"
+                    sx={{ fontSize: '0.75rem' }}
+                  />
+                ))}
+                {article.tags?.length > 3 && (
+                  <Chip
+                    label={`+${article.tags.length - 3}`}
+                    size="small"
+                    variant="outlined"
+                    sx={{ fontSize: '0.75rem' }}
                   />
                 )}
               </Box>
-              <Box>
-                <IconButton
-                  size="small"
-                  onClick={() =>
-                    window.open(`/uk/blog/${article.slug}`, '_blank')
-                  }
-                  title={t('actions.view')}
-                  sx={{ color: '#004975' }}
-                >
-                  <Visibility fontSize="small" />
-                </IconButton>
-                <IconButton
-                  size="small"
-                  onClick={() => handleOpenDialog(article)}
-                  title={t('actions.edit')}
-                  sx={{ color: '#004975' }}
-                >
-                  <Edit fontSize="small" />
-                </IconButton>
-                <IconButton
-                  size="small"
-                  onClick={() => handleDelete(article.id)}
-                  color="error"
-                  title={t('actions.delete')}
-                >
-                  <Delete fontSize="small" />
-                </IconButton>
-              </Box>
+            </CardContent>
+
+            <CardActions
+              sx={{
+                justifyContent: 'flex-end',
+                px: 2,
+                pb: 2,
+                pt: 0,
+                gap: 0.5,
+              }}
+            >
+              <IconButton
+                size="small"
+                onClick={() =>
+                  window.open(`/${article.locale}/blog/${article.slug}`, '_blank')
+                }
+                title={t('actions.view')}
+                sx={{
+                  color: '#004975',
+                  '&:hover': { backgroundColor: 'rgba(0, 73, 117, 0.08)' },
+                }}
+              >
+                <Visibility fontSize="small" />
+              </IconButton>
+              <IconButton
+                size="small"
+                onClick={() => handleOpenDialog(article)}
+                title={t('actions.edit')}
+                sx={{
+                  color: '#004975',
+                  '&:hover': { backgroundColor: 'rgba(0, 73, 117, 0.08)' },
+                }}
+              >
+                <Edit fontSize="small" />
+              </IconButton>
+              <IconButton
+                size="small"
+                onClick={() => handleDelete(article.id)}
+                color="error"
+                title={t('actions.delete')}
+                sx={{
+                  '&:hover': { backgroundColor: 'rgba(211, 47, 47, 0.08)' },
+                }}
+              >
+                <Delete fontSize="small" />
+              </IconButton>
             </CardActions>
-          </Card>
-        </Grid>
+          </Box>
+        </Card>
       ))}
-    </Grid>
+    </Box>
   );
 
   const renderTableView = () => (
@@ -563,7 +627,7 @@ export default function BlogManager() {
                   <IconButton
                     size="small"
                     onClick={() =>
-                      window.open(`/uk/blog/${article.slug}`, '_blank')
+                      window.open(`/${article.locale}/blog/${article.slug}`, '_blank')
                     }
                     title={t('actions.view')}
                     sx={{ color: '#004975' }}
@@ -645,18 +709,14 @@ export default function BlogManager() {
             </ToggleButtonGroup>
           )}
 
-          <Button
+          <PrimaryButton
             variant="contained"
             startIcon={<Add />}
             onClick={() => handleOpenDialog()}
-            sx={{
-              backgroundColor: '#004975',
-              '&:hover': { backgroundColor: '#003A5C' },
-            }}
             fullWidth={isMobile}
           >
             {t('addNew')}
-          </Button>
+          </PrimaryButton>
         </Box>
       </Box>
 
@@ -683,7 +743,6 @@ export default function BlogManager() {
         renderTableView()
       )}
 
-      {/* Dialog залишається таким же, як і в оригіналі */}
       <Dialog
         open={openDialog}
         onClose={handleCloseDialog}
@@ -696,13 +755,30 @@ export default function BlogManager() {
         </DialogTitle>
         <DialogContent>
           <Box sx={{ pt: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <TextField
-              fullWidth
-              label={t('form.title.label')}
-              value={formData.title}
-              onChange={(e) => handleTitleChange(e.target.value)}
-              placeholder={t('form.title.placeholder')}
-            />
+            <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
+              <TextField
+                fullWidth
+                label={t('form.title.label')}
+                value={formData.title}
+                onChange={(e) => handleTitleChange(e.target.value)}
+                placeholder={t('form.title.placeholder')}
+                sx={{ flex: 1 }}
+              />
+
+              <FormControl sx={{ minWidth: { xs: '100%', sm: 200 } }}>
+                <InputLabel>{t('form.locale.label')}</InputLabel>
+                <Select
+                  value={formData.locale}
+                  label={t('form.locale.label')}
+                  onChange={(e) =>
+                    setFormData({ ...formData, locale: e.target.value })
+                  }
+                >
+                  <MenuItem value="uk">🇺🇦 Українська</MenuItem>
+                  <MenuItem value="en">🇬🇧 English</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
 
             <TextField
               fullWidth
@@ -819,7 +895,7 @@ export default function BlogManager() {
                   />
                 ))}
               </Box>
-              <Box sx={{ display: 'flex', gap: 1 }}>
+              <Box sx={{ display: 'flex', gap: 1, flexDirection: { xs: 'column', sm: 'row' } }}>
                 <TextField
                   size="small"
                   label={t('form.tags.label')}

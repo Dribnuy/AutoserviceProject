@@ -66,7 +66,7 @@ const Hero = () => {
     <Box
       sx={{
         position: 'relative',
-        height: '100vh',
+        height: '80vh',
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
@@ -182,8 +182,8 @@ const Hero = () => {
           sx={{
             color: 'white',
             fontWeight: 'bold',
-            fontSize: { xs: '2.5rem', md: '4rem' },
-            mb: 3,
+            fontSize: { xs: '2.5rem', md: '3rem' },
+            mb: 2,
             textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
           }}
         >
@@ -194,7 +194,7 @@ const Hero = () => {
           sx={{
             color: '#E0F2FF',
             mb: 4,
-            fontSize: { xs: '1.2rem', md: '1.5rem' },
+            fontSize: { xs: '1.0rem', md: '1.5rem' },
             textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
           }}
         >

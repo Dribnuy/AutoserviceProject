@@ -15,7 +15,7 @@ import {
   Alert,
 } from '@mui/material';
 import { ReadMore } from '@mui/icons-material';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import { db } from '../../../../config/firebase';
 import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
@@ -35,25 +35,38 @@ interface BlogArticle {
 
 export default function BlogPage() {
   const t = useTranslations('common.blog');
+  const locale = useLocale();
   const router = useRouter();
   const [blogArticles, setBlogArticles] = useState<BlogArticle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('Всі');
+  const [selectedCategory, setSelectedCategory] = useState(
+    locale === 'uk' ? 'Всі' : 'All'
+  );
 
-  const categories = [
-    'Всі',
-    t('categories.diagnostics'),
-    t('categories.repair'),
-    t('categories.equipment'),
-    t('categories.maintenance'),
-    t('categories.analysis'),
-    t('categories.economy'),
-  ];
+  const categories = locale === 'uk' 
+    ? [
+        'Всі',
+        t('categories.diagnostics'),
+        t('categories.repair'),
+        t('categories.equipment'),
+        t('categories.maintenance'),
+        t('categories.analysis'),
+        t('categories.economy'),
+      ]
+    : [
+        'All',
+        t('categories.diagnostics'),
+        t('categories.repair'),
+        t('categories.equipment'),
+        t('categories.maintenance'),
+        t('categories.analysis'),
+        t('categories.economy'),
+      ];
 
   useEffect(() => {
     loadArticles();
-  }, []);
+  }, [locale]);
 
   const loadArticles = async () => {
     setLoading(true);
@@ -62,7 +75,7 @@ export default function BlogPage() {
       const articlesQuery = query(
         collection(db, 'blogArticles'),
         where('status', '==', 'published'),
-        where('locale', '==', 'uk'),
+        where('locale', '==', locale),
         orderBy('publishedAt', 'desc')
       );
       
@@ -74,34 +87,33 @@ export default function BlogPage() {
       
       setBlogArticles(articlesData);
     } catch (err) {
-      console.error('Помилка завантаження статей:', err);
-      setError('Не вдалося завантажити статті. Спробуйте пізніше.');
+      console.error('Error loading articles:', err);
+      setError(t('errorLoading') || 'Failed to load articles. Please try again later.');
     } finally {
       setLoading(false);
     }
   };
 
   const handleArticleClick = (slug: string) => {
-    router.push(`/uk/blog/${slug}`);
+    router.push(`/${locale}/blog/${slug}`);
   };
 
   const handleCategoryFilter = (category: string) => {
     setSelectedCategory(category);
-    // Тут можна додати логіку фільтрації або завантаження статей по категорії
   };
 
   const getReadTime = (contentMD: string): string => {
-    if (!contentMD) return '5 хв';
+    if (!contentMD) return locale === 'uk' ? '5 хв' : '5 min';
     const wordsPerMinute = 200;
     const words = contentMD.split(/\s+/).length;
     const minutes = Math.ceil(words / wordsPerMinute);
-    return `${minutes} хв`;
+    return locale === 'uk' ? `${minutes} хв` : `${minutes} min`;
   };
 
   const formatDate = (timestamp: any): string => {
     if (!timestamp) return '';
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp.seconds * 1000);
-    return date.toLocaleDateString('uk-UA', {
+    return date.toLocaleDateString(locale === 'uk' ? 'uk-UA' : 'en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -161,7 +173,7 @@ export default function BlogPage() {
               {blogArticles.length === 0 ? (
                 <Box sx={{ textAlign: 'center', py: 8 }}>
                   <Typography variant="h6" color="text.secondary">
-                    Статей поки немає. Слідкуйте за оновленнями!
+                    {t('noArticles')}
                   </Typography>
                 </Box>
               ) : (
@@ -258,7 +270,7 @@ export default function BlogPage() {
                           </Box>
 
                           <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 2 }}>
-                            {formatDate(article.publishedAt)} • {article.readTime || '5 хв'}
+                            {formatDate(article.publishedAt)} • {article.readTime || getReadTime('')}
                           </Typography>
 
                           <Divider sx={{ mb: 2 }} />
