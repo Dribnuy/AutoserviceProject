@@ -42,7 +42,7 @@ const Footer = () => {
             <Box sx={{ display: 'flex', gap: 1 }}>
               <IconButton
                 component={Link}
-                href="https://t.me/your_channel"
+                href="https://t.me/Hryhorii_Korzhinskyi"
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{ color: '#004975' }}
@@ -52,7 +52,7 @@ const Footer = () => {
               </IconButton>
               <IconButton
                 component={Link}
-                href="https://www.tiktok.com/@your_profile"
+                href="https://www.tiktok.com/@grigoriy_korzhinskyi?_r=1&_t=ZM-91Hc1cKNoY0"
                 target="_blank"
                 rel="noopener noreferrer"
                 sx={{ color: '#004975' }}
@@ -75,8 +75,14 @@ const Footer = () => {
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
               <Phone sx={{ mr: 1, color: '#004975' }} />
-              <Link href="tel:+380441234567" sx={{ color: '#CCCCCC', textDecoration: 'none' }}>
-                {t('phone')}
+              <Link href="tel:+380939679386" sx={{ color: '#CCCCCC', textDecoration: 'none' }}>
+                {t('phone1')}
+              </Link>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+              <Phone sx={{ mr: 1, color: '#004975' }} />
+              <Link href="tel:+380687235695" sx={{ color: '#CCCCCC', textDecoration: 'none' }}>
+                {t('phone2')}
               </Link>
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
